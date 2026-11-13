@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "project": "UnifiedMessagesManagement",
+  "status_policy": "passes 只能由 harness.py verify 在证据校验成功后修改；禁止手工编辑。",
+  "features": [
+    {
+      "id": "PREP-01", "title": "组队报名并锁定赛题 A", "phase": 0, "gate": "G0", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-13", "human_required": true, "depends_on": [], "passes": false,
+      "dod": ["报名与抽签结果已确认", "赛题 A 锁定且可追溯"],
+      "verification": {"ready": true, "manual": true, "files": [{"path": ".harness/evidence/PREP-01/confirmation.md", "contains": ["赛题 A", "确认人"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "PREP-02", "title": "平台账号申请与配置 Checklist", "phase": 0, "gate": "G0", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": [], "passes": false,
+      "dod": ["覆盖飞书、钉钉、企微", "包含回调地址、权限范围、测试企业创建步骤"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/accounts/checklist.md", "contains": ["飞书", "钉钉", "企业微信", "回调", "权限"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "PREP-03", "title": "至少一个平台真实收发连通证据", "phase": 0, "gate": "G0", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-13", "human_required": true, "depends_on": ["PREP-02"], "passes": false,
+      "dod": ["至少飞书具备接收与发送成功证据", "其他平台状态在 manifest 中如实记录", "证据由人工确认且不含密钥"],
+      "verification": {"ready": true, "manual": true, "files": [{"path": ".harness/evidence/PREP-03/manifest.json", "contains": []}], "commands": ["python .harness/scripts/harness.py connectivity"]},
+      "last_verification": null
+    },
+    {
+      "id": "RA-01", "title": "业务闭环用户旅程", "phase": 1, "gate": "G1", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-10", "human_required": false, "depends_on": ["PREP-01"], "passes": false,
+      "dod": ["收、展、处理、发、状态回流各环节均有输入、处理、输出与异常分支"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/需求分析文档.md", "contains": ["业务闭环与用户旅程", "用户旅程表", "状态回流", "异常分支"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "RA-02", "title": "MoSCoW 功能需求清单", "phase": 1, "gate": "G1", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-10", "human_required": false, "depends_on": ["RA-01"], "passes": false,
+      "dod": ["Must 覆盖赛题四项功能与闭环", "Should、Could、Won't 分级明确", "需求可追溯"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/需求分析文档.md", "contains": ["Must Have", "Should Have", "Could Have", "Won't Have", "需求追溯矩阵"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "RA-03", "title": "量化非功能需求", "phase": 1, "gate": "G1", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-10", "human_required": false, "depends_on": ["RA-02"], "passes": false,
+      "dod": ["限流、Token、幂等、密钥、认证等 NFR 有阈值和验证方式", "初赛与决赛 gating 范围见执行计划"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/需求分析文档.md", "contains": ["NFR-01", "NFR-02", "NFR-03", "NFR-04", "NFR-13", "验证方式"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "RA-04", "title": "三维可行性分析与风险预案", "phase": 1, "gate": "G1", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-10", "human_required": false, "depends_on": ["RA-02", "RA-03"], "passes": false,
+      "dod": ["技术、数据、时间三维论证", "主要难点与风险有量化及应对", "时间风险按 2026-11-13 重排计划处理"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/需求分析文档.md", "contains": ["技术可行性", "数据可行性", "时间可行性", "主要难点与应对预案", "风险登记册"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DS-01", "title": "架构设计与技术选型 ADR", "phase": 2, "gate": "G2", "owner": "Arch-Agent", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": ["RA-04"], "passes": false,
+      "dod": ["适配器边界清晰", "新增平台不改核心", "技术选型有 ADR 与替代方案"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/design/architecture.md", "contains": ["Adapter", "核心服务"]}, {"path": "docs/design/adr/0001-technology-stack.md", "contains": ["状态", "决策", "备选方案"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DS-02", "title": "统一消息体 JSON Schema", "phase": 2, "gate": "G2", "owner": "Arch-Agent", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": ["DS-01"], "passes": false,
+      "dod": ["覆盖双平台主流消息类型映射", "含 id、platform、sender、content、msg_type、status、reply_to、version", "Schema 可机器解析"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "contracts/message.schema.json", "contains": ["platform", "msg_type", "reply_to", "version"]}], "commands": ["python .harness/scripts/harness.py json contracts/message.schema.json"]},
+      "last_verification": null
+    },
+    {
+      "id": "DS-03", "title": "消息状态机设计", "phase": 2, "gate": "G2", "owner": "Arch-Agent", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": ["DS-02"], "passes": false,
+      "dod": ["覆盖正常流转与 parse_failed、send_failed、dead、ignored", "Adapter 不直接改写业务状态"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/design/state-machine.md", "contains": ["received", "parse_failed", "send_failed", "replied", "confirmed"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DS-04", "title": "数据库 ER 与 DDL", "phase": 2, "gate": "G2", "owner": "Arch-Agent", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": ["DS-02"], "passes": false,
+      "dod": ["覆盖 messages、conversations、platform_accounts、todo_items、sync_status", "含去重键、状态回流查询与索引"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/design/data-model.md", "contains": ["messages", "conversations", "索引"]}, {"path": "contracts/schema.sql", "contains": ["messages", "UNIQUE"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DS-05", "title": "REST 与 WebSocket OpenAPI 契约", "phase": 2, "gate": "G2", "owner": "Arch-Agent", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": ["DS-02"], "passes": false,
+      "dod": ["请求、响应、错误码完整", "可生成 Mock", "OpenAPI 可机器解析"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "contracts/openapi.json", "contains": ["openapi", "paths"]}], "commands": ["python .harness/scripts/harness.py openapi contracts/openapi.json"]},
+      "last_verification": null
+    },
+    {
+      "id": "DS-06", "title": "统一入口 UI 原型", "phase": 2, "gate": "G2", "owner": "Dev-FE", "priority": "Must", "due": "2026-11-13", "human_required": false, "depends_on": ["DS-05"], "passes": false,
+      "dod": ["覆盖消息流、待办、处理、回复、状态查看", "断线与失败状态可见"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/design/ui-prototype.md", "contains": ["消息流", "待办", "回复", "状态"]}], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DS-07", "title": "初赛设计文档精简版", "phase": 4, "gate": "G4", "owner": "RA-Agent", "priority": "Must", "due": "2026-11-19", "human_required": false, "depends_on": ["DS-01", "DS-02", "DS-03", "DS-04", "DS-05"], "passes": false,
+      "dod": ["不超过 10 页", "含闭环流程图、架构图、核心接口、关键表结构", "最终 PDF 页数由提交人复核"],
+      "verification": {"ready": true, "manual": false, "files": [{"path": "docs/submissions/preliminary-design.md", "contains": ["业务闭环", "系统架构", "接口", "表结构", "页数"]}], "commands": ["python .harness/scripts/harness.py page-budget docs/submissions/preliminary-design.md 10"]},
+      "last_verification": null
+    },
+    {
+      "id": "IM-01", "title": "项目脚手架、分支规范、CI 与配置外部化", "phase": 3, "gate": "G3", "owner": "Dev-Core", "priority": "Must", "due": "2026-11-14", "human_required": false, "depends_on": ["DS-01"], "passes": false,
+      "dod": ["纯净 checkout 可一键启动", "lint 与 Harness CI 通过", ".env 不入库"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "IM-02", "title": "消息核心服务", "phase": 3, "gate": "G3", "owner": "Dev-Core", "priority": "Must", "due": "2026-11-15", "human_required": false, "depends_on": ["IM-01", "DS-02", "DS-03", "DS-04"], "passes": false,
+      "dod": ["入库、双向转换、去重、路由、状态机", "Schema 映射与异常分支单测全绿"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "IM-03", "title": "飞书 Adapter 与真实收发纵切", "phase": 3, "gate": "G3", "owner": "Dev-Connector", "priority": "Must", "due": "2026-11-16", "human_required": true, "depends_on": ["IM-02", "PREP-03"], "passes": false,
+      "dod": ["Webhook 验签接收、API 发送、Token 管理", "真实测试企业收发成功", "M1 证据已归档"],
+      "verification": {"ready": false, "manual": true, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "IM-04", "title": "钉钉 Adapter", "phase": 3, "gate": "G3", "owner": "Dev-Connector", "priority": "Must", "due": "2026-11-18", "human_required": true, "depends_on": ["IM-02", "PREP-03"], "passes": false,
+      "dod": ["复用统一 Adapter 接口", "真实测试企业双向收发成功", "M2 证据已归档"],
+      "verification": {"ready": false, "manual": true, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "IM-05", "title": "Web 统一入口与实时推送", "phase": 3, "gate": "G3", "owner": "Dev-FE", "priority": "Must", "due": "2026-11-18", "human_required": false, "depends_on": ["DS-05", "DS-06", "IM-01"], "passes": false,
+      "dod": ["消息流、回复、WebSocket 与断线补拉", "与核心服务双向联调", "登录认证生效"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "IM-06", "title": "状态回流与待办聚合", "phase": 3, "gate": "G3", "owner": "Dev-Core", "priority": "Must", "due": "2026-11-19", "human_required": false, "depends_on": ["IM-03", "IM-04", "IM-05"], "passes": false,
+      "dod": ["回复后平台侧与入口侧状态一致", "回执超时补偿与失败可见", "M3 可演示"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "IM-07", "title": "可选第三平台或 AI 摘要", "phase": 5, "gate": "G5", "owner": "Dev-Connector", "priority": "Could", "due": "2026-12-05", "human_required": false, "depends_on": ["IM-06"], "passes": false,
+      "dod": ["不阻塞 G4", "主闭环自动化回归无失败", "AI 调用失败可降级"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "QA-01", "title": "核心单元测试", "phase": 4, "gate": "G4", "owner": "QA-Agent", "priority": "Must", "due": "2026-11-19", "human_required": false, "depends_on": ["IM-02"], "passes": false,
+      "dod": ["格式映射、去重、状态机流转全绿", "覆盖率阈值在验证命令中明确，不使用达标等模糊措辞"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "QA-02", "title": "异常与边界测试", "phase": 4, "gate": "G4", "owner": "QA-Agent", "priority": "Must", "due": "2026-11-19", "human_required": false, "depends_on": ["IM-03", "IM-04"], "passes": false,
+      "dod": ["429、Token 过期、重复 Webhook、网络超时均有可重复故障注入", "认证与未授权访问测试通过"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "QA-03", "title": "端到端闭环走查与初步演示", "phase": 4, "gate": "G4", "owner": "QA-Agent", "priority": "Must", "due": "2026-11-19", "human_required": false, "depends_on": ["IM-06"], "passes": false,
+      "dod": ["完整走通一个闭环场景", "记录每步输入、输出、状态与异常", "初步视频或等效可复现记录归档"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "QA-04", "title": "初赛提交包完整性核查", "phase": 4, "gate": "G4", "owner": "QA-Agent", "priority": "Must", "due": "2026-11-20", "human_required": true, "depends_on": ["DS-07", "QA-01", "QA-02", "QA-03"], "passes": false,
+      "dod": ["设计文档、可行性、验证证据、可运行源码四项齐备", "远程仓库链接与提交历史由人工复核"],
+      "verification": {"ready": false, "manual": true, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "ENH-01", "title": "决赛前增强且主闭环无回归", "phase": 5, "gate": "G5", "owner": "Super-Agent", "priority": "Could", "due": "2026-12-10", "human_required": false, "depends_on": ["IM-06"], "passes": false,
+      "dod": ["替代原 index.md 中重复编号的 IM-07*", "只承接经批准的 Could 项", "主闭环回归全绿"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DP-01", "title": "Docker 独立部署包", "phase": 5, "gate": "G5", "owner": "DevOps-Agent", "priority": "Must", "due": "2026-12-05", "human_required": false, "depends_on": ["IM-06"], "passes": false,
+      "dod": ["前后端 Dockerfile 与 compose 完整", "配置外部化", "纯净环境可从零构建并通过健康检查"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DP-02", "title": "纯净 Linux 从零部署演练至少两次", "phase": 5, "gate": "G5", "owner": "DevOps-Agent", "priority": "Must", "due": "2026-12-10", "human_required": true, "depends_on": ["DP-01"], "passes": false,
+      "dod": ["两次使用独立干净环境", "命令、日志、健康检查和时间记录完整", "失败记录不得删除"],
+      "verification": {"ready": false, "manual": true, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "DP-03", "title": "从零到一部署指南", "phase": 5, "gate": "G5", "owner": "DevOps-Agent", "priority": "Must", "due": "2026-12-12", "human_required": false, "depends_on": ["DP-02"], "passes": false,
+      "dod": ["精确到每条命令", "新环境仅按文档即可复现", "包含故障排查与回滚"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "CL-01", "title": "闭环打磨与数据反馈面板", "phase": 6, "gate": "G6", "owner": "Dev-Core", "priority": "Must", "due": "2026-12-15", "human_required": false, "depends_on": ["IM-06"], "passes": false,
+      "dod": ["处理统计与分类建议可追踪", "演示路径流畅", "反馈或状态流转有数据证据"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "CL-02", "title": "5~8 分钟单一闭环演示视频", "phase": 6, "gate": "G6", "owner": "QA-Agent", "priority": "Must", "due": "2026-12-17", "human_required": true, "depends_on": ["CL-01", "DP-02"], "passes": false,
+      "dod": ["只演示一个完整业务闭环", "含状态回流", "时长与内容经人工复核"],
+      "verification": {"ready": false, "manual": true, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "CL-03", "title": "决赛完整文档", "phase": 6, "gate": "G6", "owner": "RA-Agent", "priority": "Must", "due": "2026-12-18", "human_required": false, "depends_on": ["DP-03"], "passes": false,
+      "dod": ["不超过 15 页", "含闭环、架构交互、接口、表结构、部署指南与 AI 集成说明", "无冗余堆叠"],
+      "verification": {"ready": false, "manual": false, "files": [], "commands": []},
+      "last_verification": null
+    },
+    {
+      "id": "CL-04", "title": "模拟答辩与本地兜底环境", "phase": 6, "gate": "G6", "owner": "Super-Agent", "priority": "Must", "due": "2026-12-20", "human_required": true, "depends_on": ["CL-02", "CL-03"], "passes": false,
+      "dod": ["完成一次模拟答辩", "架构、部署、状态流转问题有证据化回答", "兜底环境实测可启动"],
+      "verification": {"ready": false, "manual": true, "files": [], "commands": []},
+      "last_verification": null
+    }
+  ]
+}

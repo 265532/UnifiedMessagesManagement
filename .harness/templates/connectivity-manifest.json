@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "confirmed_by": "替换为真实确认人",
+  "confirmed_at": "2026-11-13T00:00:00+08:00",
+  "platforms": [
+    {
+      "platform": "feishu",
+      "environment": "测试企业",
+      "receive_file": ".harness/evidence/PREP-03/feishu-receive.png",
+      "receive_sha256": "替换为 receive_file 的 64 位十六进制哈希",
+      "send_file": ".harness/evidence/PREP-03/feishu-send.png",
+      "send_sha256": "替换为 send_file 的 64 位十六进制哈希",
+      "note": "截图必须脱敏，不包含 token、secret 或个人隐私"
+    },
+    {
+      "platform": "dingtalk",
+      "environment": "未连通时写明 blocked 与原因",
+      "receive_file": "",
+      "receive_sha256": "",
+      "send_file": "",
+      "send_sha256": "",
+      "note": "允许 G0 单平台降级，但不得伪造已连通"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnifiedMessagesManagement Feature List",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "status_policy", "features"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "project": {"const": "UnifiedMessagesManagement"},
+    "status_policy": {"type": "string"},
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "phase", "gate", "owner", "priority", "due", "human_required", "depends_on", "passes", "dod", "verification", "last_verification"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Z]+-[0-9]+$"},
+          "title": {"type": "string", "minLength": 1},
+          "phase": {"type": "integer", "minimum": 0, "maximum": 6},
+          "gate": {"pattern": "^G[0-6]$"},
+          "owner": {"enum": ["Super-Agent", "RA-Agent", "Arch-Agent", "Dev-Core", "Dev-Connector", "Dev-FE", "QA-Agent", "DevOps-Agent"]},
+          "priority": {"enum": ["Must", "Should", "Could"]},
+          "due": {"type": "string", "format": "date"},
+          "human_required": {"type": "boolean"},
+          "depends_on": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "passes": {"type": "boolean"},
+          "dod": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "verification": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ready", "manual", "files", "commands"],
+            "properties": {
+              "ready": {"type": "boolean"},
+              "manual": {"type": "boolean"},
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["path", "contains"],
+                  "properties": {
+                    "path": {"type": "string", "minLength": 1},
+                    "contains": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              },
+              "commands": {"type": "array", "items": {"type": "string", "minLength": 1}}
+            }
+          },
+          "last_verification": {"type": ["object", "null"]}
+        }
+      }
+    }
+  }
+}

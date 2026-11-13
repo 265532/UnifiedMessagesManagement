@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "roles": [
+    {
+      "id": "Super-Agent",
+      "prompt_file": ".harness/roles/Super-Agent.md",
+      "tools": ["read", "search", "delegate", "run-verification", "git-commit"],
+      "write_paths": [".harness/progress.md", ".harness/evidence/", "docs/"],
+      "forbidden": ["直接修改 passes", "代替人工批准", "删除失败证据", "绕过质量门"],
+      "approval_required": ["变更契约或门禁", "远程发布", "范围降级"]
+    },
+    {
+      "id": "RA-Agent",
+      "prompt_file": ".harness/roles/RA-Agent.md",
+      "tools": ["read", "search", "edit-docs", "run-verification", "git-commit"],
+      "write_paths": ["docs/", ".harness/evidence/RA-"],
+      "forbidden": ["修改产品源码", "修改门禁", "虚构赛题依据"],
+      "approval_required": ["需求基线变更"]
+    },
+    {
+      "id": "Arch-Agent",
+      "prompt_file": ".harness/roles/Arch-Agent.md",
+      "tools": ["read", "search", "edit-design", "run-verification", "git-commit"],
+      "write_paths": ["docs/design/", "contracts/", ".harness/evidence/DS-"],
+      "forbidden": ["修改测试使其变弱", "未记录 ADR 就变更冻结契约"],
+      "approval_required": ["G2 后契约变更"]
+    },
+    {
+      "id": "Dev-Core",
+      "prompt_file": ".harness/roles/Dev-Core.md",
+      "tools": ["read", "search", "edit-code", "run-tests", "run-verification", "git-commit"],
+      "write_paths": ["src/", "tests/", "scripts/", ".harness/evidence/IM-"],
+      "forbidden": ["修改平台 Adapter 以绕过核心契约", "提交密钥", "直接修改 passes"],
+      "approval_required": ["新增第三方依赖", "破坏性数据库迁移"]
+    },
+    {
+      "id": "Dev-Connector",
+      "prompt_file": ".harness/roles/Dev-Connector.md",
+      "tools": ["read", "search", "edit-code", "run-tests", "run-verification", "git-commit"],
+      "write_paths": ["connectors/", "tests/", ".harness/evidence/IM-"],
+      "forbidden": ["向真实用户发消息", "提交密钥", "绕过验签或幂等"],
+      "approval_required": ["真实平台发送测试", "权限范围变更"]
+    },
+    {
+      "id": "Dev-FE",
+      "prompt_file": ".harness/roles/Dev-FE.md",
+      "tools": ["read", "search", "edit-code", "run-tests", "run-verification", "git-commit"],
+      "write_paths": ["web/", "tests/", ".harness/evidence/IM-05"],
+      "forbidden": ["绕过 API 契约直接访问数据库", "提交密钥"],
+      "approval_required": ["新增第三方依赖"]
+    },
+    {
+      "id": "QA-Agent",
+      "prompt_file": ".harness/roles/QA-Agent.md",
+      "tools": ["read", "search", "edit-tests", "run-tests", "run-verification", "git-commit"],
+      "write_paths": ["tests/", "docs/testing/", ".harness/evidence/QA-"],
+      "forbidden": ["修改产品代码让测试通过", "删除失败用例", "把自报当作验证"],
+      "approval_required": ["变更验收阈值"]
+    },
+    {
+      "id": "DevOps-Agent",
+      "prompt_file": ".harness/roles/DevOps-Agent.md",
+      "tools": ["read", "search", "edit-deployment", "run-tests", "run-verification", "git-commit"],
+      "write_paths": ["deploy/", "scripts/", "docs/deployment/", ".github/workflows/", ".harness/evidence/DP-"],
+      "forbidden": ["以 root 运行无必要服务", "提交密钥", "绕过健康检查"],
+      "approval_required": ["系统级安装", "远程部署", "删除部署环境"]
+    }
+  ]
+}

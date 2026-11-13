@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "gates": [
+    {"id": "G0", "phase": 0, "required_features": ["PREP-01", "PREP-02", "PREP-03"], "commands": ["python .harness/scripts/harness.py connectivity"], "human_approval_required": true},
+    {"id": "G1", "phase": 1, "required_features": ["RA-01", "RA-02", "RA-03", "RA-04"], "commands": [], "human_approval_required": false},
+    {"id": "G2", "phase": 2, "required_features": ["DS-01", "DS-02", "DS-03", "DS-04", "DS-05", "DS-06"], "commands": [], "human_approval_required": false},
+    {"id": "G3", "phase": 3, "required_features": ["IM-01", "IM-02", "IM-03", "IM-04", "IM-05", "IM-06"], "commands": [], "human_approval_required": false},
+    {"id": "G4", "phase": 4, "required_features": ["DS-07", "QA-01", "QA-02", "QA-03", "QA-04"], "commands": [], "human_approval_required": true},
+    {"id": "G5", "phase": 5, "required_features": ["DP-01", "DP-02", "DP-03"], "commands": [], "human_approval_required": true},
+    {"id": "G6", "phase": 6, "required_features": ["CL-01", "CL-02", "CL-03", "CL-04"], "commands": [], "human_approval_required": true}
+  ]
+}
