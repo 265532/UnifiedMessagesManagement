@@ -176,6 +176,20 @@ class HarnessTestCase(unittest.TestCase):
         self.assertFalse(self.harness.features()["features"][1]["passes"])
         self.assertTrue(self.harness.verify("RA-01")[0])
 
+    def test_text_evidence_hash_ignores_eol_but_binary_hash_does_not(self):
+        (self.root / "docs" / "lf.txt").write_bytes(b"alpha\nbeta\n")
+        (self.root / "docs" / "crlf.txt").write_bytes(b"alpha\r\nbeta\r\n")
+        self.assertEqual(
+            self.harness.sha256(self.root / "docs/lf.txt"),
+            self.harness.sha256(self.root / "docs/crlf.txt"),
+        )
+        (self.root / "docs" / "lf.png").write_bytes(b"image\r\n")
+        (self.root / "docs" / "crlf.png").write_bytes(b"image\n")
+        self.assertNotEqual(
+            self.harness.sha256(self.root / "docs/lf.png"),
+            self.harness.sha256(self.root / "docs/crlf.png"),
+        )
+
     def test_verify_writes_independent_record_and_validate_detects_tampering(self):
         ok, messages = self.harness.verify("RA-01")
         self.assertTrue(ok, messages)

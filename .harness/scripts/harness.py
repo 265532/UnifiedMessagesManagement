@@ -120,12 +120,20 @@ class Harness:
                 errors.append(f"{task_id}: 文件哈希已变化，需重新 verify: {relative}")
         return errors
 
+    def bytes_sha256(self, data, suffix=""):
+        """Canonicalize text evidence to LF so Git EOL conversion cannot invalidate hashes."""
+        if suffix.lower() not in BINARY_SUFFIXES and b"\0" not in data:
+            data = data.replace(b"\r\n", b"\n")
+        return hashlib.sha256(data).hexdigest()
+
     def sha256(self, path):
-        digest = hashlib.sha256()
-        with path.open("rb") as handle:
-            for block in iter(lambda: handle.read(1024 * 1024), b""):
-                digest.update(block)
-        return digest.hexdigest()
+        if path.suffix.lower() in BINARY_SUFFIXES:
+            digest = hashlib.sha256()
+            with path.open("rb") as handle:
+                for block in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(block)
+            return digest.hexdigest()
+        return self.bytes_sha256(path.read_bytes(), path.suffix)
 
     def git_head(self):
         if not (self.root / ".git").exists():
@@ -781,7 +789,7 @@ class Harness:
                 errors.append(f"{prefix}: 通过记录未随提交保存")
                 continue
             raw = record_result.stdout
-            if hashlib.sha256(raw).hexdigest() != evidence.get("record_sha256"):
+            if self.bytes_sha256(raw, Path(record_relative).suffix) != evidence.get("record_sha256"):
                 errors.append(f"{prefix}: 通过记录哈希与 feature_list 不一致")
                 continue
             try:

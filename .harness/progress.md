@@ -6,7 +6,8 @@
 
 - 当前分支：`harness/bootstrap`
 - 当前主任务：工具无关 Harness 已建立并完成自检；这不是产品功能完成。
-- 实测基线：26 个 Harness 单元测试、`validate`、`ci`、`history HEAD^ HEAD` 通过；`gate G2` 如实失败并归档到 `.harness/evidence/G2/result.json`；任务状态 0/33。
+- 实测基线：27 个 Harness 单元测试、`validate`、`ci`、`history HEAD^ HEAD` 通过；`gate G2` 如实失败并归档到 `.harness/evidence/G2/result.json`；任务状态 0/33。
+- Harness 首个提交：`1d8713a`；跨平台证据哈希规范化在其后的修复提交中完成。
 - 唯一推荐下一动作：先由真实人工处理 `PREP-01`（赛题确认），同时补齐 `PREP-02` 账号 Checklist；随后按依赖推进 G1 与 G2 契约，不要并行启动产品实现。
 - 外部动作：仓库维护者需在 GitHub 为 `main` 启用 CODEOWNERS 强制评审与 `harness` 必需状态检查；本地无法代替该分支保护。
 - 风险：飞书/钉钉账号权限是外部依赖；11/20 初赛硬截止不变。

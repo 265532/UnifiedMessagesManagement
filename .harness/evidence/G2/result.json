@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "gate": "G2",
-  "verified_at": "2026-11-13T03:26:59.038128+00:00",
+  "verified_at": "2026-11-13T04:57:36.925498+00:00",
   "passed": false,
   "human_approved_by": null,
   "required_features": [
@@ -14,7 +14,6 @@
   ],
   "commands": [],
   "errors": [
-    "仓库结构校验失败: 门禁归档 .harness/evidence/G2/result.json: gate_state.json 缺少该门禁的归档指针",
     "DS-01 尚未通过",
     "DS-02 尚未通过",
     "DS-03 尚未通过",

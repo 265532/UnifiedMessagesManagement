@@ -4,9 +4,9 @@
   "gates": {
     "G2": {
       "record_path": ".harness/evidence/G2/result.json",
-      "record_sha256": "19c344b55480401cb99108dee6a9913c3f6e0fe1d4d5549cf3f6efa4e2ced522",
+      "record_sha256": "161372b3b8c5a32dfe0747451ceef377555c4a7941b6caec5747a007e8c7098a",
       "passed": false,
-      "verified_at": "2026-11-13T03:26:59.038128+00:00"
+      "verified_at": "2026-11-13T04:57:36.925498+00:00"
     }
   }
 }
