@@ -1,3 +1,5 @@
+> **Harness 执行入口（2026-11-13）**：本文保留为原始角色与管理基线。实际任务状态、依赖、DoD 验证和会话交接以根目录 `AGENTS.md`、`.harness/feature_list.json`、`.harness/gates.json` 为准；已过期的 Phase 0~3 日期以 `.harness/execution-plan.json` 为准。任何 Agent 不得仅依据本文把阶段标记为完成。
+>
 > **说明**：首先澄清——本项目的“跟踪”指**开发进度与质量的工程管理**（进度监控、任务编排、评审把关），不涉及任何对人员的追踪或信息收集，全程合规。
 ---
 # 🧠 Super Agent 编排总体架构

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/265532/UnifiedMessagesManagement/.harness/schemas/agent-report.schema.json",
+  "title": "UnifiedMessagesManagement Agent Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task_id", "agent", "stop_reason", "status", "summary", "artifacts", "dod_checks", "commands", "blockers", "next_action", "retry_count", "human_approval"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "task_id": {"type": "string", "pattern": "^[A-Z]+-[0-9]+$"},
+    "agent": {"enum": ["Super-Agent", "RA-Agent", "Arch-Agent", "Dev-Core", "Dev-Connector", "Dev-FE", "QA-Agent", "DevOps-Agent"]},
+    "stop_reason": {"enum": ["completed", "aborted", "error", "max-tokens", "refusal"]},
+    "status": {"enum": ["completed", "blocked", "failed"]},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "dod_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "passed", "evidence"],
+        "properties": {
+          "item": {"type": "string", "minLength": 1},
+          "passed": {"type": "boolean"},
+          "evidence": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["command", "exit_code"],
+        "properties": {
+          "command": {"type": "string", "minLength": 1},
+          "exit_code": {"type": "integer"}
+        }
+      }
+    },
+    "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "next_action": {"type": "string", "maxLength": 1000},
+    "retry_count": {"type": "integer", "minimum": 0, "maximum": 2},
+    "human_approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "approved_by"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "approved_by": {"type": ["string", "null"]},
+        "approved_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    }
+  }
+}

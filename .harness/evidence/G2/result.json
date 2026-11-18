@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "gate": "G2",
+  "verified_at": "2026-11-13T04:57:36.925498+00:00",
+  "passed": false,
+  "human_approved_by": null,
+  "required_features": [
+    "DS-01",
+    "DS-02",
+    "DS-03",
+    "DS-04",
+    "DS-05",
+    "DS-06"
+  ],
+  "commands": [],
+  "errors": [
+    "DS-01 尚未通过",
+    "DS-02 尚未通过",
+    "DS-03 尚未通过",
+    "DS-04 尚未通过",
+    "DS-05 尚未通过",
+    "DS-06 尚未通过"
+  ]
+}

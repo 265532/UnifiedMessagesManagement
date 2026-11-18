@@ -1,0 +1,22 @@
+# Harness 状态、门禁、证据、验证脚本与 CI 的变更必须由仓库维护者审查。
+# 请在 GitHub Settings > Branches 对 main 启用 Require a pull request before merging
+# 与 Require review from Code Owners，并将 harness job 设为必需状态检查。
+.harness/feature_list.json @265532
+.harness/gate_state.json @265532
+.harness/gates.json @265532
+.harness/project.json @265532
+.harness/execution-plan.json @265532
+.harness/roles.json @265532
+.harness/evidence/ @265532
+.harness/scripts/ @265532
+.harness/hooks/ @265532
+.harness/schemas/ @265532
+.harness/templates/ @265532
+.harness/roles/ @265532
+.github/workflows/ @265532
+.github/CODEOWNERS @265532
+AGENTS.md @265532
+init.sh @265532
+init.ps1 @265532
+.gitattributes @265532
+.gitignore @265532

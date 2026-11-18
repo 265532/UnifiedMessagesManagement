@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "RA-01",
+  "agent": "RA-Agent",
+  "stop_reason": "error",
+  "status": "blocked",
+  "summary": "替换为实际结果；completed 必须有可重跑证据，本模板默认阻止误提交。",
+  "artifacts": [],
+  "dod_checks": [],
+  "commands": [],
+  "blockers": ["替换或清空此列表"],
+  "next_action": "替换为下一步",
+  "retry_count": 0,
+  "human_approval": {
+    "required": false,
+    "approved_by": null,
+    "approved_at": null
+  }
+}

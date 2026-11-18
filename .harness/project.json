@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "project": "UnifiedMessagesManagement",
+  "display_name": "多平台连接器与统一消息管理",
+  "objective": "在统一 Web 入口完成多平台消息接收、展示、处理、回复与状态回流，并以可独立部署、可验证的方式交付比赛作品。",
+  "canonical_state": ".harness/feature_list.json",
+  "progress_file": ".harness/progress.md",
+  "evidence_dir": ".harness/evidence",
+  "policy": {
+    "max_task_retries": 2,
+    "max_no_progress_rounds": 2,
+    "max_session_minutes": 90,
+    "one_feature_per_session": true,
+    "completed_stop_reason": "completed",
+    "failed_stop_reasons": ["aborted", "error", "max-tokens", "refusal"],
+    "require_human_approval_for": [
+      "真实平台账号申请与权限变更",
+      "向非测试企业或真实用户发送消息",
+      "推送远程分支或发布版本",
+      "安装系统级软件或修改系统配置",
+      "删除数据、重置环境或修改门禁以绕过失败"
+    ],
+    "protected_paths": [
+      ".harness/feature_list.json",
+      ".harness/gate_state.json",
+      ".harness/gates.json",
+      ".harness/project.json",
+      ".harness/scripts/",
+      ".harness/hooks/",
+      ".harness/schemas/",
+      ".harness/templates/",
+      ".harness/roles/",
+      ".github/workflows/harness.yml",
+      ".github/CODEOWNERS",
+      "contracts/"
+    ],
+    "secret_scan_exclude": []
+  },
+  "commands": {
+    "bootstrap": "python .harness/scripts/harness.py bootstrap",
+    "validate": "python .harness/scripts/harness.py validate",
+    "tests": "python -m unittest discover -s .harness/scripts -p test_*.py",
+    "ci": "python .harness/scripts/harness.py ci"
+  }
+}

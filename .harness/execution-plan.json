@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "version": "2026-11-13-rebaseline",
+  "supersedes": "docs/index.md 中已过期的 Phase 0~3 日期",
+  "baseline_observed_at": "2026-11-13",
+  "baseline_facts": [
+    "仓库仅有文档初始化提交，无产品代码",
+    "G0 账号 Checklist 与平台连通证据未归档",
+    "G1 需求分析文档已存在，仍需机器校验",
+    "G2 架构、Schema、状态机、DDL、OpenAPI 与 UI 原型未归档"
+  ],
+  "scope": {
+    "preliminary_required": ["G2 契约", "飞书纵切", "钉钉接入", "Web 入口", "状态回流", "初赛四项交付物"],
+    "preliminary_non_gating": ["企业微信第三平台", "AI 摘要", "高可用与多实例", "50 并发 WebSocket 压测", "完整性能 SLO"],
+    "final_required": ["完整业务闭环", "独立部署包", "完整文档", "5~8 分钟单一闭环演示", "答辩准备"]
+  },
+  "phases": [
+    {"phase": 0, "gate": "G0", "start": "2026-11-13", "due": "2026-11-13", "goal": "确认账号与连通证据现状；缺口由人工补齐"},
+    {"phase": 1, "gate": "G1", "start": "2026-11-10", "due": "2026-11-13", "goal": "校验并冻结已有需求基线"},
+    {"phase": 2, "gate": "G2", "start": "2026-11-13", "due": "2026-11-13", "goal": "冻结架构、消息 Schema、状态机、DDL、API 与 UI 契约"},
+    {"phase": 3, "gate": "G3", "start": "2026-11-14", "due": "2026-11-19", "goal": "先飞书纵切，再并行钉钉与前端，最后状态回流"},
+    {"phase": 4, "gate": "G4", "start": "2026-11-18", "due": "2026-11-20", "goal": "测试与初赛四项交付物，11/20 为硬截止"},
+    {"phase": 5, "gate": "G5", "start": "2026-11-21", "due": "2026-12-12", "goal": "独立部署与两次纯净环境演练；加分项不得引入主闭环回归"},
+    {"phase": 6, "gate": "G6", "start": "2026-12-12", "due": "2026-12-20", "goal": "闭环打磨、决赛文档、演示与答辩"}
+  ],
+  "milestones": [
+    {"id": "M1", "due": "2026-11-16", "features": ["IM-03"], "goal": "飞书单平台真实收发纵切"},
+    {"id": "M2", "due": "2026-11-18", "features": ["IM-04", "IM-05"], "goal": "钉钉接入且 Web 双向联调"},
+    {"id": "M3", "due": "2026-11-19", "features": ["IM-06"], "goal": "状态回流可演示"},
+    {"id": "G4", "due": "2026-11-20", "features": ["DS-07", "QA-04"], "goal": "初赛提交"},
+    {"id": "G5", "due": "2026-12-12", "features": ["DP-02", "DP-03"], "goal": "部署验收"},
+    {"id": "G6", "due": "2026-12-20", "features": ["CL-04"], "goal": "决赛交付"}
+  ],
+  "escalation": "里程碑预计延期 1 天或外部账号依赖未解除时，立即停止 Could 项，保留 Must 闭环并更新本计划；不得修改历史日期制造按期完成的假象。"
+}

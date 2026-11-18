@@ -1,0 +1,82 @@
+name: harness
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      gate:
+        description: "Optional gate to verify (G0-G6)"
+        required: false
+        default: ""
+      approved_by:
+        description: "Real approver for human gates; never a bot name"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Harness unit tests
+        run: python -m unittest discover -s .harness/scripts -p "test_*.py"
+      - name: Git whitespace check
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ -n "$PR_BASE" ]; then
+            git diff --check "$PR_BASE" HEAD
+          elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            git diff --check HEAD^ HEAD
+          else
+            EMPTY_TREE=$(git hash-object -t tree /dev/null)
+            git diff --check "$EMPTY_TREE" HEAD
+          fi
+      - name: Git history state anchor
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE: ${{ github.event.before }}
+        run: |
+          BASE=""
+          if [ -n "$PR_BASE" ]; then
+            BASE="$PR_BASE"
+          elif [ -n "$PUSH_BASE" ] && [ "$PUSH_BASE" != "0000000000000000000000000000000000000000" ] && git rev-parse --verify "$PUSH_BASE^{commit}" >/dev/null 2>&1; then
+            BASE="$PUSH_BASE"
+          elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            BASE="HEAD^"
+          fi
+          if [ -n "$BASE" ]; then
+            python .harness/scripts/harness.py history "$BASE" HEAD
+          else
+            echo "Initial commit has no parent; history anchor skipped"
+          fi
+      - name: Portable Harness CI
+        run: python .harness/scripts/harness.py ci
+      - name: Optional quality gate
+        if: github.event_name == 'workflow_dispatch' && inputs.gate != ''
+        env:
+          GATE: ${{ inputs.gate }}
+          APPROVED_BY: ${{ inputs.approved_by }}
+        run: |
+          if [ -n "$APPROVED_BY" ]; then
+            python .harness/scripts/harness.py gate "$GATE" --human-approved-by "$APPROVED_BY"
+          else
+            python .harness/scripts/harness.py gate "$GATE"
+          fi
+      - name: Upload quality gate evidence
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.gate != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-evidence-${{ inputs.gate }}
+          path: .harness/evidence/${{ inputs.gate }}/
+          if-no-files-found: warn
+          retention-days: 90
