@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    container_name: umm-app
+    ports:
+      - "8000:8000"
+    environment:
+      UMM_MODE: ${UMM_MODE:-mock}
+      UMM_HOST: 0.0.0.0
+      UMM_PORT: 8000
+      FEISHU_APP_ID: ${FEISHU_APP_ID:-}
+      FEISHU_APP_SECRET: ${FEISHU_APP_SECRET:-}
+      FEISHU_VERIFICATION_TOKEN: ${FEISHU_VERIFICATION_TOKEN:-}
+      DINGTALK_APP_KEY: ${DINGTALK_APP_KEY:-}
+      DINGTALK_APP_SECRET: ${DINGTALK_APP_SECRET:-}
+    volumes:
+      # SQLite 数据放宿主机，容器重建不丢演示数据
+      - ./data:/app/data
+    restart: unless-stopped
+
+# 决赛要做多实例和负载均衡时，扩容这一层，前面加 nginx 做反向代理。
+# 注意：SQLite 不支持多实例并发写，扩容前必须先换 MySQL。

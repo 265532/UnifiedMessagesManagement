@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Environment & local config
+.env
+config.local.py
+
+# Runtime data & databases
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# WorkBuddy workspace data
+.workbuddy/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>统一消息管理入口</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div id="login-layer" class="login-layer">
+  <div class="login-card">
+    <div class="login-mark"></div>
+    <h1>统一消息管理</h1>
+    <p class="login-sub">飞书、钉钉的消息与待办，收进一个入口</p>
+    <form id="login-form">
+      <label><span>账号</span><input id="username" value="demo" autocomplete="username"></label>
+      <label><span>密码</span><input id="password" type="password" value="demo1234" autocomplete="current-password"></label>
+      <button type="submit" class="btn-primary">进入</button>
+      <p id="login-error" class="login-error"></p>
+    </form>
+    <p class="login-hint">演示账号 demo / demo1234</p>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <h1>统一消息管理</h1>
+        <p class="brand-sub">一个入口收两个平台的消息，回复发得出去，状态回得来</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="platform-chips" id="platform-chips"></div>
+      <span class="mode-badge" id="mode-badge">模拟模式</span>
+      <button class="btn" id="btn-push">模拟新消息</button>
+      <button class="btn" id="btn-duplicate">投递重复事件</button>
+      <button class="btn btn-ghost" id="btn-reset">清空重来</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="column col-messages">
+      <div class="column-head">
+        <h2>消息流</h2>
+        <div class="filters" id="filters">
+          <button class="chip active" data-platform="">全部</button>
+          <button class="chip" data-platform="feishu">飞书</button>
+          <button class="chip" data-platform="dingtalk">钉钉</button>
+        </div>
+      </div>
+      <div class="message-list" id="message-list">
+        <div class="empty">还没有消息，点右上角「模拟新消息」</div>
+      </div>
+    </aside>
+
+    <section class="column col-detail">
+      <div class="column-head">
+        <h2>消息详情</h2>
+        <span class="detail-status" id="detail-status"></span>
+      </div>
+      <div class="detail-body" id="detail-body">
+        <div class="empty tall">从左边选一条消息</div>
+      </div>
+      <div class="detail-footer hidden" id="detail-footer">
+        <div class="reply-box">
+          <textarea id="reply-input" rows="2" placeholder="在这里写回复，内容会发到对应平台"></textarea>
+          <div class="reply-actions">
+            <label class="switch"><input type="checkbox" id="simulate-failure"><span>注入一次发送失败</span></label>
+            <button class="btn-primary" id="btn-reply">发送回复</button>
+          </div>
+        </div>
+        <div class="detail-buttons">
+          <button class="btn" id="btn-process">标记已处理</button>
+          <button class="btn" id="btn-confirm">确认回执</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="column col-pipeline">
+      <div class="column-head">
+        <h2>闭环流水线</h2>
+        <span class="hint" id="pipeline-hint">选一条消息，看它走到哪一步</span>
+      </div>
+      <div class="pipeline" id="pipeline"></div>
+      <div class="column-head sub">
+        <h2>状态统计</h2>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="column-head sub">
+        <h2>状态流转记录</h2>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="empty small">暂无记录</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="logbar">
+    <div class="logbar-head">
+      <h2>实时事件</h2>
+      <span class="hint" id="log-count">0 条</span>
+    </div>
+    <div class="log-list" id="log-list"><div class="log-empty">消息进来时，这里会逐条显示验签、转换、去重、入库、推送、发送每一步的结果</div></div>
+  </footer>
+</div>
+
+<script>window.__BOOT__ = {{ boot_json|safe }};</script>
+<script src="/static/app.js"></script>
+</body>
+</html>

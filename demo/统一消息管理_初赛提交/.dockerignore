@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+data
+__pycache__
+*.pyc
+*.db
+*.db-wal
+*.db-shm
+preview.png
+server.*.log
+docs/assets
