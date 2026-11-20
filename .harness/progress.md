@@ -11,7 +11,7 @@
 - 关键缺口：两份 PDF 成品未导出、AI 链接仍为占位、钉钉真实证据待归档、飞书未接通、统一 Web 产品源码与干净 checkout 运行记录暂缺。
 - 唯一推荐下一动作：由人工在 Word/WPS 中导出两份 PDF、实测精简设计页数并替换 AI 对话链接；随后补齐平台/产品真实验证，再按 `review/final-acceptance-report.md` 复核。任何远程 push、发布或官方提交均须人工明确批准。
 - 禁止：把静态原型、契约解析或 Harness 自检写成产品闭环验证通过；不得为 `page-budget` 虚构实测页数。
-- Git 同步（2026-11-20 晚）：初赛资料已本地提交 `656315b`（82 个文件，pre-commit 27 项测试与空白检查通过）；用户明确批准后 `git push origin harness/bootstrap` 连续两次因 GitHub 连接中断失败（curl 55、SSL EOF），未推送成功。下一动作：网络恢复后重试该 push；重试前用 `git ls-remote` 确认远端未意外收到提交。
+- Git 同步（2026-11-20 晚）：初赛资料本地提交 `656315b`（82 个文件），交接记录提交 `e10e72c`；两条均待推送。pre-commit 27 项测试与空白检查通过。用户明确批准后，`git push origin harness/bootstrap` 与 `git ls-remote` 多轮尝试全部失败（curl 55、SSL EOF、HTTP2 framing、502）。诊断结论：故障在本机网络层，与仓库和 Git 配置无关——环境变量代理 `127.0.0.1:11571` 返回 502，Git 配置的代理 `127.0.0.1:10090` 无法连接，绕过代理直连 github.com 超时；切换 HTTP/1.1 仍失败。已按协议停止重试。下一动作：先由人工修复网络或代理（两个代理端口需核实哪个有效），确认 `curl https://github.com` 能返回 HTTP 200 后，再用 `git ls-remote` 核对远端指向并重试 push，避免重复推送。
 
 ## 历史摘要
 
