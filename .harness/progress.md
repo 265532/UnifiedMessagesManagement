@@ -11,6 +11,7 @@
 - 关键缺口：两份 PDF 成品未导出、AI 链接仍为占位、钉钉真实证据待归档、飞书未接通、统一 Web 产品源码与干净 checkout 运行记录暂缺。
 - 唯一推荐下一动作：由人工在 Word/WPS 中导出两份 PDF、实测精简设计页数并替换 AI 对话链接；随后补齐平台/产品真实验证，再按 `review/final-acceptance-report.md` 复核。任何远程 push、发布或官方提交均须人工明确批准。
 - 禁止：把静态原型、契约解析或 Harness 自检写成产品闭环验证通过；不得为 `page-budget` 虚构实测页数。
+- Git 同步（2026-11-20 晚）：初赛资料已本地提交 `656315b`（82 个文件，pre-commit 27 项测试与空白检查通过）；用户明确批准后 `git push origin harness/bootstrap` 连续两次因 GitHub 连接中断失败（curl 55、SSL EOF），未推送成功。下一动作：网络恢复后重试该 push；重试前用 `git ls-remote` 确认远端未意外收到提交。
 
 ## 历史摘要
 
