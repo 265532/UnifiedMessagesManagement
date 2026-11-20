@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="docx-page-size" content="A4"><title>需求分析</title><style>
+:root {
+  --ff-body: SimSun, 宋体, serif;
+  --ff-heading: SimSun, 宋体, serif;
+  --ff-mono: Consolas, monospace;
+  --fs-body: 12pt;
+  --fs-h1: 12pt;
+  --fs-h2: 12pt;
+  --fs-h3: 12pt;
+  --fs-cover-project: 16pt;
+  --fs-cover-title: 14pt;
+  --fs-caption: 12pt;
+  --lh-body: 1.5;
+  --fw-bold: 700;
+  --fw-normal: 400;
+  --color-text: #000000;
+  --color-muted: #444444;
+  --color-border: #666666;
+  --color-table-header: #E7E6E6;
+  --color-background: #FFFFFF;
+  --spacing-paragraph: 0.55em;
+  --spacing-section: 1.25em;
+  --spacing-block: 0.75em;
+  --spacing-cover: 2.5em;
+  --spacing-image: 0.5em;
+  --margin-page: 2.54cm 2.4cm 2.54cm 2.8cm;
+  --margin-auto: auto;
+  --page-content-width: 15.6cm;
+  --border-table: 1px solid var(--color-border);
+  --align-center: center;
+  --align-justify: justify;
+  --align-left: left;
+  --indent-body: 2em;
+  --indent-none: 0;
+  --width-full: 100%;
+  --width-image: 100%;
+  --weight-normal: normal;
+  --style-none: none;
+}
+@page { margin: var(--margin-page); @bottom-center { content: counter(page); font-family: var(--ff-body); font-size: var(--fs-body); } }
+@page cover { @bottom-center { content: none; } }
+section[role="cover"] { page: cover; }
+body { max-width: var(--page-content-width); margin-left: var(--margin-auto); margin-right: var(--margin-auto); background: var(--color-background); color: var(--color-text); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+p { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--fw-normal); line-height: var(--lh-body); text-align: var(--align-justify); text-indent: var(--indent-body); margin-top: var(--spacing-paragraph); margin-bottom: var(--spacing-paragraph); }
+h1, h2, h3 { font-family: var(--ff-heading); color: var(--color-text); font-weight: var(--fw-bold); line-height: var(--lh-body); text-align: var(--align-left); margin-top: var(--spacing-section); margin-bottom: var(--spacing-block); }
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+.cover-project { font-family: var(--ff-body); font-size: var(--fs-cover-project); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-meta, .cover-status { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-normal); text-align: var(--align-center); text-indent: var(--indent-none); line-height: var(--lh-body); }
+.cover-status { font-size: var(--fs-body); color: var(--color-muted); margin-top: var(--spacing-cover); }
+.toc-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); }
+.toc-list, .toc-list ol, .toc-list ul { list-style: var(--style-none); }
+.toc-list li, .toc-list li a { font-family: var(--ff-body); font-size: var(--fs-body); color: var(--color-text); line-height: var(--lh-body); text-indent: var(--indent-none); }
+table { width: var(--width-full); border-collapse: collapse; margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+caption { font-family: var(--ff-body); font-size: var(--fs-caption); font-weight: var(--fw-bold); text-align: var(--align-center); margin-bottom: var(--spacing-image); }
+th, td { border: var(--border-table); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); text-align: var(--align-left); padding: var(--spacing-image); vertical-align: top; }
+th { font-weight: var(--fw-bold); text-align: var(--align-center); background: var(--color-table-header); }
+figure { margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+figure p, figcaption p { text-align: var(--align-center); text-indent: var(--indent-none); font-family: var(--ff-body); font-size: var(--fs-caption); }
+img { max-width: var(--width-image); }
+ul, ol { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+li { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); }
+code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+pre { font-family: var(--ff-mono); font-size: var(--fs-body); line-height: var(--lh-body); white-space: pre-wrap; text-align: var(--align-left); }
+pre code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+</style></head>
+<body>
+<section role="cover">
+<p class="cover-project">UnifiedMessagesManagement<br>多平台连接器与统一消息管理</p>
+<p class="cover-title">需求分析</p>
+<p class="cover-meta">报名序号：47</p>
+<p class="cover-meta">队长：廖俊健　队员：姚峰</p>
+<p class="cover-status">状态：提交源稿；设计内容不代表已实现或验证通过。</p>
+</section>
+<section role="cover"><nav class="doc-toc" aria-label="文档目录"><p class="toc-title">目录</p><ol class="toc-list"><li><a href="#section-1">1. 需求理解</a></li><li><a href="#section-2">2. 功能清单</a></li><li><a href="#section-3">3. 新增功能</a></li><li><a href="#section-4">4. 核心流程</a><ol><li><a href="#section-4-1">4.1 消息接收与展示流程</a></li><li><a href="#section-4-2">4.2 消息处理与回复流程</a></li><li><a href="#section-4-3">4.3 异常恢复流程</a></li></ol></li><li><a href="#section-5">5. 其他</a></li></ol></nav></section>
+<section role="body" data-page-restart="1"><h1 id="section-1">1. 需求理解</h1><p>多平台办公场景下，消息分散在飞书、钉钉等不同客户端，用户需要反复切换入口才能查看、处理和回复，容易造成遗漏、延迟和状态不一致。本项目的核心不是简单聚合消息，而是建立一个统一消息管理入口：系统通过官方 API 或 Webhook 接收平台事件，将不同平台的消息格式转换为内部统一模型，在 Web 页面集中展示，并允许用户直接处理与回复。回复结果需要回到对应平台，处理、发送、失败和确认状态也要回流到统一入口，形成“接收 → 展示 → 处理 → 回复 → 状态回流”的可追踪闭环。</p><p>需求设计以两个平台为基础，优先保证文本与文件消息、待办聚合、幂等去重、断线恢复和异常状态可处理。系统还需要控制平台凭证和入口访问安全，避免未授权用户查看或发送消息。AI 摘要、第三平台扩展和高可用属于后续增强方向，不影响初赛主闭环。</p><h1 id="section-2">2. 功能清单</h1><table><caption>表 1 功能清单</caption><thead><tr><th>序号</th><th>功能项</th><th>功能描述</th></tr></thead><tbody><tr><td>1</td><td>多平台连接器接入</td><td>通过统一 Adapter 接口接入飞书、钉钉，对上屏蔽平台 API 与消息格式差异。</td></tr><tr><td>2</td><td>平台消息接收</td><td>接收平台 Webhook 事件，完成验签、解析、受理和异常识别。</td></tr><tr><td>3</td><td>统一消息格式转换</td><td>将平台消息映射为内部标准格式，并支持内部格式反向转换为平台发送格式。</td></tr><tr><td>4</td><td>消息持久化与幂等去重</td><td>保存消息、会话、状态和附件；通过平台事件 ID 与回复请求 ID 避免重复记录。</td></tr><tr><td>5</td><td>Web 统一入口</td><td>集中展示不同平台消息、会话和处理状态，支持查看、筛选与详情追踪。</td></tr><tr><td>6</td><td>实时消息推送</td><td>新消息与状态变化通过 WebSocket 推送，断线后按游标补拉。</td></tr><tr><td>7</td><td>统一入口回复</td><td>用户可在统一入口向指定平台发送文本或文件回复，并查看受理、成功或失败结果。</td></tr><tr><td>8</td><td>状态机与状态回流</td><td>管理接收、展示、处理、回复、确认及异常状态，平台结果回写到统一入口。</td></tr><tr><td>9</td><td>待办事项聚合</td><td>汇聚各平台待办事项，统一展示来源、内容、时间和处理状态。</td></tr><tr><td>10</td><td>入口认证与会话控制</td><td>统一入口登录鉴权，会话超时自动失效，未认证请求不得访问业务接口。</td></tr></tbody></table><h1 id="section-3">3. 新增功能</h1><p>以下“新增”指相对于题目明确基础条目的设计增强，均为当前设计内容，不表示已实现或验证通过。</p><table><caption>表 2 新增功能</caption><thead><tr><th>序号</th><th>功能项</th><th>功能描述</th><th>为何新增</th></tr></thead><tbody><tr><td>1</td><td>回复请求幂等</td><td>客户端每次回复生成唯一请求 ID，数据库以唯一约束防止网络重试或重复点击造成重复回复。</td><td>题目要求发送反馈，但实际网络可能重试；幂等设计能避免同一回复被平台重复接收。</td></tr><tr><td>2</td><td>状态历史追踪</td><td>每次状态变化记录来源状态、目标状态、时间、原因和操作者。</td><td>让“处理是否完成、回复是否送达、失败发生在哪一步”可以回放和审查。</td></tr><tr><td>3</td><td>断线游标补拉</td><td>WebSocket 事件携带状态历史自增 ID 作为递增游标，断线重连后通过 REST 补齐新建消息和状态变化。</td><td>保证移动网络或服务重启后统一入口不漏消息。</td></tr><tr><td>4</td><td>持久化发送队列</td><td>回复受理后写入 outbox，由后台 worker 发送并支持重启恢复。</td><td>避免请求线程崩溃或服务重启导致已受理回复丢失。</td></tr><tr><td>5</td><td>异常队列与死信</td><td>解析失败、发送失败和重试耗尽分别进入可识别状态，支持人工复核。</td><td>防止异常消息静默丢失，提升闭环可靠性。</td></tr></tbody></table><h1 id="section-4">4. 核心流程</h1><h2 id="section-4-1">4.1 消息接收与展示流程</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\requirements\fig-01-message-receive-display-01.png" alt="图 1 消息接收与展示流程"></p><figcaption><p>图 1 消息接收与展示流程</p></figcaption></figure><p>图 1 说明：平台事件先验签，再转换为统一消息。系统利用平台事件 ID 去重，只有新事件才写入数据库并推送页面；断线场景通过游标补拉恢复，避免消息丢失。</p><h2 id="section-4-2">4.2 消息处理与回复流程</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\requirements\fig-01-message-reply-feedback-02.png" alt="图 2 消息处理与回复流程"></p><figcaption><p>图 2 消息处理与回复流程</p></figcaption></figure><p>图 2 说明：用户处理与回复不会直接阻塞在平台调用上。系统先持久化回复请求，再由后台任务发送；平台成功、失败和最终确认均会回流到页面。</p><h2 id="section-4-3">4.3 异常恢复流程</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\requirements\fig-01-exception-recovery-03.png" alt="图 3 异常恢复流程"></p><figcaption><p>图 3 异常恢复流程</p></figcaption></figure><p>图 3 说明：发送失败后不盲目重发。系统先查询平台侧状态，确认未送达才按退避策略重试，避免超时造成的重复回复。</p><h1 id="section-5">5. 其他</h1><p>AI 专项对话链接：待替换为真实、可公开访问且不含隐私信息的链接。</p><p>当前实现边界：据用户陈述，钉钉平台侧已具备真实收发、回调和回执，但证据尚未归档，当前未复核；飞书尚未接通；统一 Web 产品尚未实现。本章描述的是需求与设计范围，不把上述未完成事项写成已验证结果。</p><p>　</p></section>
+</body></html>

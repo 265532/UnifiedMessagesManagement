@@ -2,16 +2,15 @@
 
 > 本文件只记录导航信息。唯一任务状态见 `feature_list.json`；唯一验收结论见验证命令与 evidence。
 
-## 当前交接（2026-11-13）
+## 当前交接（2026-11-20）
 
-- 当前分支：`harness/bootstrap`
-- 当前主任务：工具无关 Harness 已建立并完成自检；这不是产品功能完成。
-- 实测基线：27 个 Harness 单元测试、`validate`、`ci`、`history HEAD^ HEAD` 通过；`gate G2` 如实失败并归档到 `.harness/evidence/G2/result.json`；任务状态 0/33。
-- Harness 首个提交：`1d8713a`；跨平台证据哈希规范化在其后的修复提交中完成。
-- 唯一推荐下一动作：先由真实人工处理 `PREP-01`（赛题确认），同时补齐 `PREP-02` 账号 Checklist；随后按依赖推进 G1 与 G2 契约，不要并行启动产品实现。
-- 外部动作：仓库维护者需在 GitHub 为 `main` 启用 CODEOWNERS 强制评审与 `harness` 必需状态检查；本地无法代替该分支保护。
-- 风险：飞书/钉钉账号权限是外部依赖；11/20 初赛硬截止不变。
-- 禁止：把 Harness 文件创建成功表述为 G0/G1/G2 已通过。
+- 当前分支：`harness/bootstrap`。
+- 本轮完成：按用户确认的方案 A 整理初赛资料设计基线，生成 `docs/submissions/release/` 下 00～06 可编辑成品、契约与静态原型证据；全过程未读取 `demo`。
+- 真实校验：消息 Schema、OpenAPI 解析及 4 个响应示例一致性校验通过；7 份 Word 转换/页面要素/目录校验通过；`00_提交清单.xlsx` 与发布文件逐项对应。
+- 实测基线：`doctor`、`validate` 通过；`status` 仍为 **0/33 个任务通过**，所有质量门均未通过。提交资料整理不等于产品实现或 Harness 验收。
+- 关键缺口：两份 PDF 成品未导出、AI 链接仍为占位、钉钉真实证据待归档、飞书未接通、统一 Web 产品源码与干净 checkout 运行记录暂缺。
+- 唯一推荐下一动作：由人工在 Word/WPS 中导出两份 PDF、实测精简设计页数并替换 AI 对话链接；随后补齐平台/产品真实验证，再按 `review/final-acceptance-report.md` 复核。任何远程 push、发布或官方提交均须人工明确批准。
+- 禁止：把静态原型、契约解析或 Harness 自检写成产品闭环验证通过；不得为 `page-budget` 虚构实测页数。
 
 ## 历史摘要
 

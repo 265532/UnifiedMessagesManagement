@@ -1,0 +1,219 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Unified Messages Management API",
+    "version": "0.1.0",
+    "description": "初赛设计稿 API 契约。该文件用于统一前后端、连接器与验证口径，不代表实现已完成。"
+  },
+  "servers": [{"url": "http://localhost:8000"}],
+  "tags": [
+    {"name": "Auth"},
+    {"name": "Messages"},
+    {"name": "Todos"},
+    {"name": "Webhooks"},
+    {"name": "System"}
+  ],
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "登录统一入口",
+        "operationId": "login",
+        "security": [],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/LoginRequest"}, "example": {"username": "admin", "password": "replace-me"}}}},
+        "responses": {
+          "200": {"description": "登录成功", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UserSession"}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "422": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "退出登录",
+        "operationId": "logout",
+        "responses": {
+          "200": {"description": "退出成功", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/OkResponse"}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"}
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "获取当前登录用户",
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {"description": "当前用户", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UserSession"}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"}
+        }
+      }
+    },
+    "/api/v1/messages": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "查询统一消息列表",
+        "operationId": "listMessages",
+        "parameters": [
+          {"name": "platform", "in": "query", "schema": {"$ref": "#/components/schemas/Platform"}},
+          {"name": "conversationId", "in": "query", "schema": {"type": "integer", "minimum": 1}},
+          {"name": "status", "in": "query", "schema": {"$ref": "#/components/schemas/MessageStatus"}},
+          {"name": "cursor", "in": "query", "description": "断线补拉起点，取 message_status_history.id 的全局递增值；返回该游标之后有新建或状态变化的消息。", "schema": {"type": "integer", "minimum": 1}},
+          {"name": "limit", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 20}}
+        ],
+        "responses": {
+          "200": {"description": "消息页", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MessagePage"}, "example": {"items": [{"schema_version": "1.0.0", "message_id": 10482, "platform": "dingtalk", "conversation": {"id": 501, "platform_conversation_id": "cid-test-001", "title": "测试会话", "conversation_type": "group"}, "sender_name": "测试用户", "message_type": "text", "content_text": "请确认今天的发货清单", "direction": "inbound", "status": "stored", "occurred_at": "2026-11-20T09:40:00+08:00", "version": 1, "client_request_id": null}], "next_cursor": 12482}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "422": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/api/v1/messages/{messageId}": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "查询消息详情与状态历史",
+        "operationId": "getMessage",
+        "parameters": [{"$ref": "#/components/parameters/MessageId"}],
+        "responses": {
+          "200": {"description": "消息详情", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MessageDetail"}, "example": {"schema_version": "1.0.0", "message_id": 10482, "platform": "dingtalk", "conversation": {"id": 501, "platform_conversation_id": "cid-test-001", "title": "测试会话", "conversation_type": "group"}, "sender_name": "测试用户", "message_type": "text", "content_text": "请确认今天的发货清单", "direction": "inbound", "status": "processed", "occurred_at": "2026-11-20T09:40:00+08:00", "version": 3, "client_request_id": null, "status_history": [{"from_status": "displayed", "to_status": "processed", "reason": "用户确认处理", "actor": "user", "occurred_at": "2026-11-20T09:41:18+08:00"}]}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/messages/{messageId}/process": {
+      "post": {
+        "tags": ["Messages"],
+        "summary": "标记消息为已处理",
+        "operationId": "processMessage",
+        "parameters": [{"$ref": "#/components/parameters/MessageId"}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ProcessMessageRequest"}}}},
+        "responses": {
+          "200": {"description": "处理后的消息", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UnifiedMessage"}, "example": {"schema_version": "1.0.0", "message_id": 10482, "platform": "dingtalk", "conversation": {"id": 501, "platform_conversation_id": "cid-test-001", "title": "测试会话", "conversation_type": "group"}, "sender_name": "测试用户", "message_type": "text", "content_text": "请确认今天的发货清单", "direction": "inbound", "status": "processed", "occurred_at": "2026-11-20T09:40:00+08:00", "version": 3, "client_request_id": null}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "409": {"$ref": "#/components/responses/Conflict"}
+        }
+      }
+    },
+    "/api/v1/messages/{messageId}/reply": {
+      "post": {
+        "tags": ["Messages"],
+        "summary": "从统一入口回复消息",
+        "operationId": "replyMessage",
+        "parameters": [{"$ref": "#/components/parameters/MessageId"}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReplyMessageRequest"}}}},
+        "responses": {
+          "202": {"description": "回复已受理并进入发送队列", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReplyAccepted"}}}},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "422": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/api/v1/messages/{messageId}/retry": {
+      "post": {
+        "tags": ["Messages"],
+        "summary": "重试失败的发送",
+        "operationId": "retryMessage",
+        "parameters": [{"$ref": "#/components/parameters/MessageId"}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RetryMessageRequest"}}}},
+        "responses": {
+          "202": {"description": "重试已受理", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReplyAccepted"}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "409": {"$ref": "#/components/responses/Conflict"}
+        }
+      }
+    },
+    "/api/v1/todos": {
+      "get": {
+        "tags": ["Todos"],
+        "summary": "查询跨平台待办列表",
+        "operationId": "listTodos",
+        "parameters": [
+          {"name": "platform", "in": "query", "schema": {"$ref": "#/components/schemas/Platform"}},
+          {"name": "status", "in": "query", "schema": {"type": "string", "enum": ["pending", "processed"]}},
+          {"name": "limit", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 20}}
+        ],
+        "responses": {
+          "200": {"description": "待办列表", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TodoPage"}, "example": {"items": [{"message_id": 10490, "platform": "dingtalk", "title": "付款申请审批", "status": "pending", "occurred_at": "2026-11-20T09:38:00+08:00"}]}}}},
+          "401": {"$ref": "#/components/responses/Unauthorized"}
+        }
+      }
+    },
+    "/webhooks/{platform}": {
+      "post": {
+        "tags": ["Webhooks"],
+        "summary": "接收平台 Webhook 事件",
+        "operationId": "receivePlatformWebhook",
+        "security": [],
+        "parameters": [{"name": "platform", "in": "path", "required": true, "schema": {"$ref": "#/components/schemas/Platform"}}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "additionalProperties": true}}}},
+        "responses": {
+          "200": {"description": "事件已受理", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/OkResponse"}}}},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"description": "验签失败", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}},
+          "409": {"description": "重复事件，已忽略", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/OkResponse"}}}}
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": ["System"],
+        "summary": "健康检查",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {"description": "服务可用", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HealthResponse"}}}},
+          "503": {"description": "服务不可用", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HealthResponse"}}}}
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "MessageId": {"name": "messageId", "in": "path", "required": true, "schema": {"type": "integer", "minimum": 1}}
+    },
+    "responses": {
+      "BadRequest": {"description": "请求不合法", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}},
+      "Unauthorized": {"description": "未认证或会话失效", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}},
+      "NotFound": {"description": "资源不存在", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}},
+      "Conflict": {"description": "状态冲突或重复请求", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}},
+      "ValidationError": {"description": "参数校验失败", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}}
+    },
+    "schemas": {
+      "Platform": {"type": "string", "enum": ["feishu", "dingtalk"]},
+      "MessageStatus": {"type": "string", "enum": ["received", "stored", "displayed", "processed", "replying", "replied", "confirmed", "parse_failed", "ignored", "send_failed", "dead"]},
+      "LoginRequest": {"type": "object", "additionalProperties": false, "required": ["username", "password"], "properties": {"username": {"type": "string"}, "password": {"type": "string", "format": "password"}}},
+      "UserSession": {"type": "object", "additionalProperties": false, "required": ["user_id", "username", "display_name", "session_expires_at"], "properties": {"user_id": {"type": "integer"}, "username": {"type": "string"}, "display_name": {"type": "string"}, "session_expires_at": {"type": "string", "format": "date-time"}}},
+      "Conversation": {"type": "object", "additionalProperties": false, "required": ["id", "platform_conversation_id", "conversation_type"], "properties": {"id": {"type": "integer"}, "platform_conversation_id": {"type": "string"}, "title": {"type": ["string", "null"]}, "conversation_type": {"type": "string", "enum": ["direct", "group", "todo"]}}},
+      "UnifiedMessageBase": {"type": "object", "required": ["schema_version", "message_id", "platform", "conversation", "sender_name", "message_type", "content_text", "direction", "status", "occurred_at", "version"], "properties": {"schema_version": {"type": "string"}, "message_id": {"type": "integer"}, "platform": {"$ref": "#/components/schemas/Platform"}, "conversation": {"$ref": "#/components/schemas/Conversation"}, "sender_name": {"type": ["string", "null"]}, "message_type": {"type": "string", "enum": ["text", "file", "todo"]}, "content_text": {"type": ["string", "null"]}, "direction": {"type": "string", "enum": ["inbound", "outbound"]}, "status": {"$ref": "#/components/schemas/MessageStatus"}, "occurred_at": {"type": "string", "format": "date-time"}, "version": {"type": "integer", "minimum": 0}, "client_request_id": {"type": ["string", "null"]}}},
+      "UnifiedMessage": {"allOf": [{"$ref": "#/components/schemas/UnifiedMessageBase"}], "unevaluatedProperties": false},
+      "MessagePage": {"type": "object", "additionalProperties": false, "required": ["items", "next_cursor"], "properties": {"items": {"type": "array", "items": {"$ref": "#/components/schemas/UnifiedMessage"}}, "next_cursor": {"type": ["integer", "null"], "description": "本页最大的 message_status_history.id；客户端作为下次补拉游标保存。"}}},
+      "StatusHistoryItem": {"type": "object", "additionalProperties": false, "required": ["from_status", "to_status", "actor", "occurred_at"], "properties": {"from_status": {"type": ["string", "null"]}, "to_status": {"type": "string"}, "reason": {"type": ["string", "null"]}, "actor": {"type": "string"}, "occurred_at": {"type": "string", "format": "date-time"}}},
+      "MessageDetail": {"allOf": [{"$ref": "#/components/schemas/UnifiedMessageBase"}, {"type": "object", "required": ["status_history"], "properties": {"status_history": {"type": "array", "items": {"$ref": "#/components/schemas/StatusHistoryItem"}}}}], "unevaluatedProperties": false},
+      "ProcessMessageRequest": {"type": "object", "additionalProperties": false, "required": ["version"], "properties": {"version": {"type": "integer", "minimum": 0}, "note": {"type": ["string", "null"]}}},
+      "ReplyAttachment": {"type": "object", "additionalProperties": false, "required": ["file_name", "mime_type", "size_bytes"], "properties": {"file_name": {"type": "string"}, "mime_type": {"type": "string"}, "size_bytes": {"type": "integer", "minimum": 0}, "storage_path": {"type": ["string", "null"]}}},
+      "ReplyMessageRequest": {"type": "object", "additionalProperties": false, "required": ["client_request_id", "message_type"], "properties": {"client_request_id": {"type": "string", "minLength": 8}, "message_type": {"type": "string", "enum": ["text", "file"]}, "text": {"type": ["string", "null"]}, "attachments": {"type": "array", "items": {"$ref": "#/components/schemas/ReplyAttachment"}}}},
+      "RetryMessageRequest": {"type": "object", "additionalProperties": false, "required": ["reason"], "properties": {"reason": {"type": "string"}}},
+      "ReplyAccepted": {"type": "object", "additionalProperties": false, "required": ["message_id", "status", "accepted_at"], "properties": {"message_id": {"type": "integer"}, "status": {"type": "string", "enum": ["replying"]}, "accepted_at": {"type": "string", "format": "date-time"}}},
+      "TodoItem": {"type": "object", "additionalProperties": false, "required": ["message_id", "platform", "title", "status", "occurred_at"], "properties": {"message_id": {"type": "integer"}, "platform": {"$ref": "#/components/schemas/Platform"}, "title": {"type": "string"}, "status": {"type": "string", "enum": ["pending", "processed"]}, "occurred_at": {"type": "string", "format": "date-time"}}},
+      "TodoPage": {"type": "object", "additionalProperties": false, "required": ["items"], "properties": {"items": {"type": "array", "items": {"$ref": "#/components/schemas/TodoItem"}}}},
+      "OkResponse": {"type": "object", "additionalProperties": false, "required": ["ok"], "properties": {"ok": {"type": "boolean"}}},
+      "HealthResponse": {"type": "object", "additionalProperties": false, "required": ["status", "checks"], "properties": {"status": {"type": "string", "enum": ["ok", "degraded"]}, "checks": {"type": "object", "additionalProperties": {"type": "string"}}}},
+      "ErrorResponse": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}, "retryable": {"type": "boolean"}, "trace_id": {"type": ["string", "null"]}}}
+    },
+    "securitySchemes": {
+      "sessionCookie": {"type": "apiKey", "in": "cookie", "name": "umm_session"}
+    },
+    "x-websocket": {
+      "url": "/ws/v1",
+      "authentication": "sessionCookie",
+      "contract": "docs/design/websocket-events.md"
+    }
+  },
+  "security": [{"sessionCookie": []}]
+}

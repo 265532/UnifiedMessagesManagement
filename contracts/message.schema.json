@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/contracts/message.schema.json",
+  "title": "UnifiedMessage",
+  "description": "统一消息标准格式设计稿。该契约用于飞书、钉钉与内部消息服务之间的转换，不代表对应实现已完成。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "platform",
+    "conversation",
+    "sender",
+    "message_type",
+    "content",
+    "direction",
+    "status",
+    "occurred_at",
+    "version"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "message_id": {"type": ["integer", "null"], "minimum": 1, "description": "数据库内部消息 ID；平台事件尚未入库时可为空。"},
+    "platform": {"type": "string", "enum": ["feishu", "dingtalk"]},
+    "platform_event_id": {"type": ["string", "null"], "description": "平台事件唯一标识，用于幂等去重。"},
+    "platform_message_id": {"type": ["string", "null"]},
+    "conversation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform_conversation_id", "conversation_type"],
+      "properties": {
+        "internal_conversation_id": {"type": ["integer", "null"], "minimum": 1},
+        "platform_conversation_id": {"type": "string", "minLength": 1},
+        "title": {"type": ["string", "null"]},
+        "conversation_type": {"type": "string", "enum": ["direct", "group", "todo"]}
+      }
+    },
+    "sender": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform_user_id"],
+      "properties": {
+        "platform_user_id": {"type": "string", "minLength": 1},
+        "display_name": {"type": ["string", "null"]}
+      }
+    },
+    "recipient": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["platform_user_id"],
+      "properties": {
+        "platform_user_id": {"type": "string", "minLength": 1},
+        "display_name": {"type": ["string", "null"]}
+      }
+    },
+    "message_type": {"type": "string", "enum": ["text", "file", "todo"]},
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string"},
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["file_name", "mime_type", "size_bytes"],
+            "properties": {
+              "file_name": {"type": "string", "minLength": 1},
+              "mime_type": {"type": "string", "minLength": 1},
+              "size_bytes": {"type": "integer", "minimum": 0},
+              "platform_file_id": {"type": ["string", "null"]},
+              "checksum_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "direction": {"type": "string", "enum": ["inbound", "outbound"]},
+    "status": {"type": "string", "enum": ["received", "stored", "displayed", "processed", "replying", "replied", "confirmed", "parse_failed", "ignored", "send_failed", "dead"]},
+    "reply_to": {"type": ["string", "null"], "description": "被回复消息的内部 ID 或平台消息 ID。"},
+    "client_request_id": {"type": ["string", "null"], "description": "客户端发起的幂等请求 ID，出站回复必填。"},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "version": {"type": "integer", "minimum": 0},
+    "error": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {"type": "string"},
+        "message": {"type": "string"},
+        "retryable": {"type": "boolean"}
+      }
+    }
+  }
+}

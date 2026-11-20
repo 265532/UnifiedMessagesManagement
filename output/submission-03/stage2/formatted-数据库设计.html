@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="docx-page-size" content="A4"><title>数据库设计</title><style>
+:root {
+  --ff-body: SimSun, 宋体, serif;
+  --ff-heading: SimSun, 宋体, serif;
+  --ff-mono: Consolas, monospace;
+  --fs-body: 12pt;
+  --fs-h1: 12pt;
+  --fs-h2: 12pt;
+  --fs-h3: 12pt;
+  --fs-cover-project: 16pt;
+  --fs-cover-title: 14pt;
+  --fs-caption: 12pt;
+  --lh-body: 1.5;
+  --fw-bold: 700;
+  --fw-normal: 400;
+  --color-text: #000000;
+  --color-muted: #444444;
+  --color-border: #666666;
+  --color-table-header: #E7E6E6;
+  --color-background: #FFFFFF;
+  --spacing-paragraph: 0.55em;
+  --spacing-section: 1.25em;
+  --spacing-block: 0.75em;
+  --spacing-cover: 2.5em;
+  --spacing-image: 0.5em;
+  --margin-page: 2.54cm 2.4cm 2.54cm 2.8cm;
+  --margin-auto: auto;
+  --page-content-width: 15.6cm;
+  --border-table: 1px solid var(--color-border);
+  --align-center: center;
+  --align-justify: justify;
+  --align-left: left;
+  --indent-body: 2em;
+  --indent-none: 0;
+  --width-full: 100%;
+  --width-image: 100%;
+  --weight-normal: normal;
+  --style-none: none;
+}
+@page { margin: var(--margin-page); @bottom-center { content: counter(page); font-family: var(--ff-body); font-size: var(--fs-body); } }
+@page cover { @bottom-center { content: none; } }
+section[role="cover"] { page: cover; }
+body { max-width: var(--page-content-width); margin-left: var(--margin-auto); margin-right: var(--margin-auto); background: var(--color-background); color: var(--color-text); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+p { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--fw-normal); line-height: var(--lh-body); text-align: var(--align-justify); text-indent: var(--indent-body); margin-top: var(--spacing-paragraph); margin-bottom: var(--spacing-paragraph); }
+h1, h2, h3 { font-family: var(--ff-heading); color: var(--color-text); font-weight: var(--fw-bold); line-height: var(--lh-body); text-align: var(--align-left); margin-top: var(--spacing-section); margin-bottom: var(--spacing-block); }
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+.cover-project { font-family: var(--ff-body); font-size: var(--fs-cover-project); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-meta, .cover-status { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-normal); text-align: var(--align-center); text-indent: var(--indent-none); line-height: var(--lh-body); }
+.cover-status { font-size: var(--fs-body); color: var(--color-muted); margin-top: var(--spacing-cover); }
+.toc-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); }
+.toc-list, .toc-list ol, .toc-list ul { list-style: var(--style-none); }
+.toc-list li, .toc-list li a { font-family: var(--ff-body); font-size: var(--fs-body); color: var(--color-text); line-height: var(--lh-body); text-indent: var(--indent-none); }
+table { width: var(--width-full); border-collapse: collapse; margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+caption { font-family: var(--ff-body); font-size: var(--fs-caption); font-weight: var(--fw-bold); text-align: var(--align-center); margin-bottom: var(--spacing-image); }
+th, td { border: var(--border-table); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); text-align: var(--align-left); padding: var(--spacing-image); vertical-align: top; }
+th { font-weight: var(--fw-bold); text-align: var(--align-center); background: var(--color-table-header); }
+figure { margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+figure p, figcaption p { text-align: var(--align-center); text-indent: var(--indent-none); font-family: var(--ff-body); font-size: var(--fs-caption); }
+img { max-width: var(--width-image); }
+ul, ol { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+li { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); }
+code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+pre { font-family: var(--ff-mono); font-size: var(--fs-body); line-height: var(--lh-body); white-space: pre-wrap; text-align: var(--align-left); }
+pre code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+</style></head>
+<body>
+<section role="cover">
+<p class="cover-project">UnifiedMessagesManagement<br>多平台连接器与统一消息管理</p>
+<p class="cover-title">数据库设计</p>
+<p class="cover-meta">报名序号：47</p>
+<p class="cover-meta">队长：廖俊健　队员：姚峰</p>
+<p class="cover-status">状态：数据库设计稿；以 `contracts/schema.sql` 为准，不代表数据库已部署。</p>
+</section>
+<section role="cover"><nav class="doc-toc" aria-label="文档目录"><p class="toc-title">目录</p><ol class="toc-list"><li><a href="#section-1">1. 数据表清单</a></li><li><a href="#section-2">2. 数据表内容</a><ol><li><a href="#section-2-1">表 1 `users`</a></li><li><a href="#section-2-2">表 2 `platform_accounts`</a></li><li><a href="#section-2-3">表 3 `conversations`</a></li><li><a href="#section-2-4">表 4 `messages`</a></li><li><a href="#section-2-5">表 5 `attachments`</a></li><li><a href="#section-2-6">表 6 `message_status_history`</a></li><li><a href="#section-2-7">表 7 `outbox_events`</a></li></ol></li><li><a href="#section-3">3. SQL语句</a><ol><li><a href="#section-3-1">users</a></li><li><a href="#section-3-2">platform_accounts</a></li><li><a href="#section-3-3">conversations</a></li><li><a href="#section-3-4">messages</a></li><li><a href="#section-3-5">attachments</a></li><li><a href="#section-3-6">message_status_history</a></li><li><a href="#section-3-7">outbox_events</a></li></ol></li><li><a href="#section-4">4. 其他</a></li></ol></nav></section>
+<section role="body" data-page-restart="1"><h1 id="section-1">1. 数据表清单</h1><table><caption>表 1 数据表清单</caption><thead><tr><th>序号</th><th>数据表名</th><th>作用</th><th>与其他表关系</th></tr></thead><tbody><tr><td>1</td><td><code>users</code></td><td>保存统一入口登录用户及口令散列</td><td>用户操作以 <code>actor</code> 审计名称逻辑关联状态历史，不设置外键</td></tr><tr><td>2</td><td><code>platform_accounts</code></td><td>保存飞书、钉钉应用账号与凭证引用</td><td>一个平台账号对应多个会话</td></tr><tr><td>3</td><td><code>conversations</code></td><td>保存统一会话及平台会话标识</td><td>属于平台账号，包含多条消息</td></tr><tr><td>4</td><td><code>messages</code></td><td>保存统一消息、方向、状态、幂等键和版本</td><td>属于会话，可关联回复目标消息</td></tr><tr><td>5</td><td><code>attachments</code></td><td>保存文件消息附件元数据</td><td>属于消息</td></tr><tr><td>6</td><td><code>message_status_history</code></td><td>保存状态流转历史，并以其自增 ID 作为全局事件游标</td><td>属于消息</td></tr><tr><td>7</td><td><code>outbox_events</code></td><td>保存待发送、重试和补偿事件</td><td><code>aggregate_type=message</code> 时以聚合 ID 逻辑关联消息，不设置跨聚合外键</td></tr></tbody></table><h1 id="section-2">2. 数据表内容</h1><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\database\fig-03-entity-relationship-01.png" alt="图 1 数据表关系图"></p><figcaption><p>图 1 数据表关系图</p></figcaption></figure><p>图 1 展示平台账号、会话、消息、附件、状态历史与发送事件之间的关联；用户操作通过状态历史中的操作者字段留痕。其中用户与状态历史、outbox 与消息属于审计或跨聚合场景下的逻辑关联，DDL 未设置这两类外键。</p><h2 id="section-2-1">表 1 <code>users</code></h2><table><caption>表 2 users字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>users</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>用户 ID</td><td>主键，自增</td></tr><tr><td>users</td><td>2</td><td>username</td><td>VARCHAR(64)</td><td>登录名</td><td>唯一，不允许重复</td></tr><tr><td>users</td><td>3</td><td>password_hash</td><td>VARCHAR(255)</td><td>口令散列</td><td>不保存明文密码</td></tr><tr><td>users</td><td>4</td><td>display_name</td><td>VARCHAR(128)</td><td>显示名称</td><td>页面展示名称</td></tr><tr><td>users</td><td>5</td><td>status</td><td>VARCHAR(16)</td><td>用户状态</td><td>active/disabled</td></tr><tr><td>users</td><td>6</td><td>created_at</td><td>DATETIME(6)</td><td>创建时间</td><td>记录创建时间</td></tr><tr><td>users</td><td>7</td><td>updated_at</td><td>DATETIME(6)</td><td>更新时间</td><td>自动更新</td></tr></tbody></table><h2 id="section-2-2">表 2 <code>platform_accounts</code></h2><table><caption>表 3 platform_accounts字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>platform_accounts</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>账号 ID</td><td>主键，自增</td></tr><tr><td>platform_accounts</td><td>2</td><td>platform</td><td>VARCHAR(32)</td><td>平台</td><td>feishu/dingtalk</td></tr><tr><td>platform_accounts</td><td>3</td><td>account_name</td><td>VARCHAR(128)</td><td>账号名称</td><td>测试企业或应用名称</td></tr><tr><td>platform_accounts</td><td>4</td><td>app_id</td><td>VARCHAR(128)</td><td>应用 ID</td><td>平台应用标识</td></tr><tr><td>platform_accounts</td><td>5</td><td>encrypted_credentials</td><td>TEXT</td><td>加密凭证</td><td>保存加密后的凭证材料</td></tr><tr><td>platform_accounts</td><td>6</td><td>webhook_secret_ref</td><td>VARCHAR(255)</td><td>Webhook 密钥引用</td><td>指向安全配置，不明文展示</td></tr><tr><td>platform_accounts</td><td>7</td><td>status</td><td>VARCHAR(16)</td><td>启用状态</td><td>enabled/disabled</td></tr><tr><td>platform_accounts</td><td>8</td><td>token_expires_at</td><td>DATETIME(6)</td><td>Token 过期时间</td><td>用于临期刷新</td></tr><tr><td>platform_accounts</td><td>9</td><td>created_at</td><td>DATETIME(6)</td><td>创建时间</td><td>记录创建时间</td></tr><tr><td>platform_accounts</td><td>10</td><td>updated_at</td><td>DATETIME(6)</td><td>更新时间</td><td>自动更新</td></tr></tbody></table><h2 id="section-2-3">表 3 <code>conversations</code></h2><table><caption>表 4 conversations字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>conversations</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>会话 ID</td><td>主键，自增</td></tr><tr><td>conversations</td><td>2</td><td>platform</td><td>VARCHAR(32)</td><td>平台</td><td>消息来源平台</td></tr><tr><td>conversations</td><td>3</td><td>platform_conversation_id</td><td>VARCHAR(128)</td><td>平台会话 ID</td><td>与平台组成唯一键</td></tr><tr><td>conversations</td><td>4</td><td>account_id</td><td>BIGINT UNSIGNED</td><td>平台账号 ID</td><td>外键关联平台账号</td></tr><tr><td>conversations</td><td>5</td><td>title</td><td>VARCHAR(255)</td><td>会话标题</td><td>群名或联系人名称</td></tr><tr><td>conversations</td><td>6</td><td>conversation_type</td><td>VARCHAR(16)</td><td>会话类型</td><td>direct/group/todo</td></tr><tr><td>conversations</td><td>7</td><td>last_message_at</td><td>DATETIME(6)</td><td>最近消息时间</td><td>用于会话排序</td></tr><tr><td>conversations</td><td>8</td><td>created_at</td><td>DATETIME(6)</td><td>创建时间</td><td>记录创建时间</td></tr><tr><td>conversations</td><td>9</td><td>updated_at</td><td>DATETIME(6)</td><td>更新时间</td><td>自动更新</td></tr></tbody></table><h2 id="section-2-4">表 4 <code>messages</code></h2><table><caption>表 5 messages字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>messages</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>消息 ID</td><td>主键，自增</td></tr><tr><td>messages</td><td>2</td><td>schema_version</td><td>VARCHAR(16)</td><td>消息格式版本</td><td>支撑字段演进</td></tr><tr><td>messages</td><td>3</td><td>platform</td><td>VARCHAR(32)</td><td>平台</td><td>feishu/dingtalk</td></tr><tr><td>messages</td><td>4</td><td>platform_event_id</td><td>VARCHAR(191)</td><td>平台事件 ID</td><td>平台事件幂等键</td></tr><tr><td>messages</td><td>5</td><td>platform_message_id</td><td>VARCHAR(191)</td><td>平台消息 ID</td><td>平台返回的消息标识</td></tr><tr><td>messages</td><td>6</td><td>conversation_id</td><td>BIGINT UNSIGNED</td><td>会话 ID</td><td>外键关联会话</td></tr><tr><td>messages</td><td>7</td><td>sender_platform_user_id</td><td>VARCHAR(128)</td><td>发送者平台 ID</td><td>平台侧用户标识</td></tr><tr><td>messages</td><td>8</td><td>sender_name</td><td>VARCHAR(128)</td><td>发送者名称</td><td>页面展示名称</td></tr><tr><td>messages</td><td>9</td><td>message_type</td><td>VARCHAR(16)</td><td>消息类型</td><td>text/file/todo</td></tr><tr><td>messages</td><td>10</td><td>content_text</td><td>MEDIUMTEXT</td><td>文本内容</td><td>统一文本内容</td></tr><tr><td>messages</td><td>11</td><td>content_json</td><td>JSON</td><td>结构化内容</td><td>保存平台映射后的结构</td></tr><tr><td>messages</td><td>12</td><td>direction</td><td>VARCHAR(16)</td><td>消息方向</td><td>inbound/outbound</td></tr><tr><td>messages</td><td>13</td><td>status</td><td>VARCHAR(24)</td><td>消息状态</td><td>状态机当前状态</td></tr><tr><td>messages</td><td>14</td><td>reply_to_message_id</td><td>BIGINT UNSIGNED</td><td>回复目标消息</td><td>自关联外键</td></tr><tr><td>messages</td><td>15</td><td>client_request_id</td><td>VARCHAR(128)</td><td>客户端请求 ID</td><td>回复幂等键</td></tr><tr><td>messages</td><td>16</td><td>version</td><td>INT UNSIGNED</td><td>乐观锁版本</td><td>防止并发覆盖</td></tr><tr><td>messages</td><td>17</td><td>occurred_at</td><td>DATETIME(6)</td><td>发生时间</td><td>平台事件发生时间</td></tr><tr><td>messages</td><td>18</td><td>created_at</td><td>DATETIME(6)</td><td>创建时间</td><td>入库时间</td></tr><tr><td>messages</td><td>19</td><td>updated_at</td><td>DATETIME(6)</td><td>更新时间</td><td>最近状态更新时间</td></tr></tbody></table><h2 id="section-2-5">表 5 <code>attachments</code></h2><table><caption>表 6 attachments字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>attachments</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>附件 ID</td><td>主键，自增</td></tr><tr><td>attachments</td><td>2</td><td>message_id</td><td>BIGINT UNSIGNED</td><td>消息 ID</td><td>外键关联消息</td></tr><tr><td>attachments</td><td>3</td><td>file_name</td><td>VARCHAR(255)</td><td>文件名</td><td>原始文件名</td></tr><tr><td>attachments</td><td>4</td><td>mime_type</td><td>VARCHAR(128)</td><td>文件类型</td><td>MIME 类型</td></tr><tr><td>attachments</td><td>5</td><td>size_bytes</td><td>BIGINT UNSIGNED</td><td>文件大小</td><td>单位字节</td></tr><tr><td>attachments</td><td>6</td><td>storage_path</td><td>VARCHAR(512)</td><td>存储路径</td><td>本地或对象存储路径</td></tr><tr><td>attachments</td><td>7</td><td>platform_file_id</td><td>VARCHAR(191)</td><td>平台文件 ID</td><td>平台素材标识</td></tr><tr><td>attachments</td><td>8</td><td>checksum_sha256</td><td>CHAR(64)</td><td>文件校验值</td><td>用于完整性校验</td></tr><tr><td>attachments</td><td>9</td><td>created_at</td><td>DATETIME(6)</td><td>创建时间</td><td>入库时间</td></tr></tbody></table><h2 id="section-2-6">表 6 <code>message_status_history</code></h2><table><caption>表 7 message_status_history字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>message_status_history</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>历史 ID</td><td>主键，自增；作为断线补拉的全局事件游标</td></tr><tr><td>message_status_history</td><td>2</td><td>message_id</td><td>BIGINT UNSIGNED</td><td>消息 ID</td><td>外键关联消息</td></tr><tr><td>message_status_history</td><td>3</td><td>from_status</td><td>VARCHAR(24)</td><td>原状态</td><td>首次写入可为空</td></tr><tr><td>message_status_history</td><td>4</td><td>to_status</td><td>VARCHAR(24)</td><td>目标状态</td><td>状态机新状态</td></tr><tr><td>message_status_history</td><td>5</td><td>reason</td><td>VARCHAR(512)</td><td>流转原因</td><td>记录失败或操作原因</td></tr><tr><td>message_status_history</td><td>6</td><td>actor</td><td>VARCHAR(64)</td><td>操作者</td><td>system/user/worker</td></tr><tr><td>message_status_history</td><td>7</td><td>occurred_at</td><td>DATETIME(6)</td><td>发生时间</td><td>状态发生时间</td></tr><tr><td>message_status_history</td><td>8</td><td>created_at</td><td>DATETIME(6)</td><td>入库时间</td><td>记录创建时间</td></tr></tbody></table><h2 id="section-2-7">表 7 <code>outbox_events</code></h2><table><caption>表 8 outbox_events字段内容</caption><thead><tr><th>表名</th><th>序号</th><th>字段英文名</th><th>字段类型</th><th>字段中文名</th><th>字段解释</th></tr></thead><tbody><tr><td>outbox_events</td><td>1</td><td>id</td><td>BIGINT UNSIGNED</td><td>事件 ID</td><td>主键，自增</td></tr><tr><td>outbox_events</td><td>2</td><td>aggregate_type</td><td>VARCHAR(32)</td><td>聚合类型</td><td>例如 message</td></tr><tr><td>outbox_events</td><td>3</td><td>aggregate_id</td><td>BIGINT UNSIGNED</td><td>聚合 ID</td><td>关联业务记录</td></tr><tr><td>outbox_events</td><td>4</td><td>event_type</td><td>VARCHAR(64)</td><td>事件类型</td><td>例如 send_reply</td></tr><tr><td>outbox_events</td><td>5</td><td>payload_json</td><td>JSON</td><td>事件内容</td><td>发送所需参数</td></tr><tr><td>outbox_events</td><td>6</td><td>idempotency_key</td><td>VARCHAR(191)</td><td>幂等键</td><td>防止重复创建任务</td></tr><tr><td>outbox_events</td><td>7</td><td>status</td><td>VARCHAR(16)</td><td>事件状态</td><td>pending/sent/failed</td></tr><tr><td>outbox_events</td><td>8</td><td>attempts</td><td>INT UNSIGNED</td><td>已尝试次数</td><td>控制最大重试</td></tr><tr><td>outbox_events</td><td>9</td><td>next_retry_at</td><td>DATETIME(6)</td><td>下次重试时间</td><td>退避调度依据</td></tr><tr><td>outbox_events</td><td>10</td><td>processed_at</td><td>DATETIME(6)</td><td>完成时间</td><td>成功或终止时间</td></tr><tr><td>outbox_events</td><td>11</td><td>created_at</td><td>DATETIME(6)</td><td>创建时间</td><td>入库时间</td></tr><tr><td>outbox_events</td><td>12</td><td>updated_at</td><td>DATETIME(6)</td><td>更新时间</td><td>自动更新</td></tr></tbody></table><h1 id="section-3">3. SQL语句</h1><p>以下 SQL 与 <code>contracts/schema.sql</code> 一致，每张表单独列出可执行建表语句。</p><h2 id="section-3-1">users</h2><pre><code class="language-sql">CREATE TABLE users (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  username VARCHAR(64) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  display_name VARCHAR(128) NOT NULL,
+  status VARCHAR(16) NOT NULL DEFAULT &#x27;active&#x27;,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_users_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h2 id="section-3-2">platform_accounts</h2><pre><code class="language-sql">CREATE TABLE platform_accounts (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  platform VARCHAR(32) NOT NULL,
+  account_name VARCHAR(128) NOT NULL,
+  app_id VARCHAR(128) NOT NULL,
+  encrypted_credentials TEXT NOT NULL,
+  webhook_secret_ref VARCHAR(255) NOT NULL,
+  status VARCHAR(16) NOT NULL DEFAULT &#x27;enabled&#x27;,
+  token_expires_at DATETIME(6) NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_platform_account (platform, account_name),
+  KEY idx_platform_status (platform, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h2 id="section-3-3">conversations</h2><pre><code class="language-sql">CREATE TABLE conversations (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  platform VARCHAR(32) NOT NULL,
+  platform_conversation_id VARCHAR(128) NOT NULL,
+  account_id BIGINT UNSIGNED NOT NULL,
+  title VARCHAR(255) NULL,
+  conversation_type VARCHAR(16) NOT NULL,
+  last_message_at DATETIME(6) NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_platform_conversation (platform, platform_conversation_id),
+  KEY idx_conversation_recent (platform, last_message_at DESC, id DESC),
+  CONSTRAINT fk_conversations_account FOREIGN KEY (account_id) REFERENCES platform_accounts (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h2 id="section-3-4">messages</h2><pre><code class="language-sql">CREATE TABLE messages (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  schema_version VARCHAR(16) NOT NULL,
+  platform VARCHAR(32) NOT NULL,
+  platform_event_id VARCHAR(191) NULL,
+  platform_message_id VARCHAR(191) NULL,
+  conversation_id BIGINT UNSIGNED NOT NULL,
+  sender_platform_user_id VARCHAR(128) NOT NULL,
+  sender_name VARCHAR(128) NULL,
+  message_type VARCHAR(16) NOT NULL,
+  content_text MEDIUMTEXT NULL,
+  content_json JSON NULL,
+  direction VARCHAR(16) NOT NULL,
+  status VARCHAR(24) NOT NULL,
+  reply_to_message_id BIGINT UNSIGNED NULL,
+  client_request_id VARCHAR(128) NULL,
+  version INT UNSIGNED NOT NULL DEFAULT 0,
+  occurred_at DATETIME(6) NOT NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_inbound_event (platform, platform_event_id),
+  UNIQUE KEY uk_reply_request (platform, conversation_id, client_request_id),
+  KEY idx_message_list (platform, conversation_id, occurred_at DESC, id DESC),
+  KEY idx_status_feedback (platform, conversation_id, status, updated_at DESC, id DESC),
+  KEY idx_message_todo (message_type, status, occurred_at DESC),
+  CONSTRAINT fk_messages_conversation FOREIGN KEY (conversation_id) REFERENCES conversations (id),
+  CONSTRAINT fk_messages_reply_to FOREIGN KEY (reply_to_message_id) REFERENCES messages (id),
+  CONSTRAINT chk_messages_direction CHECK (direction IN (&#x27;inbound&#x27;, &#x27;outbound&#x27;)),
+  CONSTRAINT chk_messages_type CHECK (message_type IN (&#x27;text&#x27;, &#x27;file&#x27;, &#x27;todo&#x27;)),
+  CONSTRAINT chk_messages_status CHECK (status IN (&#x27;received&#x27;, &#x27;stored&#x27;, &#x27;displayed&#x27;, &#x27;processed&#x27;, &#x27;replying&#x27;, &#x27;replied&#x27;, &#x27;confirmed&#x27;, &#x27;parse_failed&#x27;, &#x27;ignored&#x27;, &#x27;send_failed&#x27;, &#x27;dead&#x27;))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h2 id="section-3-5">attachments</h2><pre><code class="language-sql">CREATE TABLE attachments (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  message_id BIGINT UNSIGNED NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(128) NOT NULL,
+  size_bytes BIGINT UNSIGNED NOT NULL,
+  storage_path VARCHAR(512) NULL,
+  platform_file_id VARCHAR(191) NULL,
+  checksum_sha256 CHAR(64) NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  KEY idx_attachments_message (message_id),
+  CONSTRAINT fk_attachments_message FOREIGN KEY (message_id) REFERENCES messages (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h2 id="section-3-6">message_status_history</h2><pre><code class="language-sql">CREATE TABLE message_status_history (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  message_id BIGINT UNSIGNED NOT NULL,
+  from_status VARCHAR(24) NULL,
+  to_status VARCHAR(24) NOT NULL,
+  reason VARCHAR(512) NULL,
+  actor VARCHAR(64) NOT NULL,
+  occurred_at DATETIME(6) NOT NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  KEY idx_status_history_message (message_id, occurred_at),
+  CONSTRAINT fk_status_history_message FOREIGN KEY (message_id) REFERENCES messages (id) ON DELETE CASCADE,
+  CONSTRAINT chk_history_to_status CHECK (to_status IN (&#x27;received&#x27;, &#x27;stored&#x27;, &#x27;displayed&#x27;, &#x27;processed&#x27;, &#x27;replying&#x27;, &#x27;replied&#x27;, &#x27;confirmed&#x27;, &#x27;parse_failed&#x27;, &#x27;ignored&#x27;, &#x27;send_failed&#x27;, &#x27;dead&#x27;))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h2 id="section-3-7">outbox_events</h2><pre><code class="language-sql">CREATE TABLE outbox_events (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  aggregate_type VARCHAR(32) NOT NULL,
+  aggregate_id BIGINT UNSIGNED NOT NULL,
+  event_type VARCHAR(64) NOT NULL,
+  payload_json JSON NOT NULL,
+  idempotency_key VARCHAR(191) NOT NULL,
+  status VARCHAR(16) NOT NULL DEFAULT &#x27;pending&#x27;,
+  attempts INT UNSIGNED NOT NULL DEFAULT 0,
+  next_retry_at DATETIME(6) NULL,
+  processed_at DATETIME(6) NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_outbox_idempotency (idempotency_key),
+  KEY idx_outbox_dispatch (status, next_retry_at, id),
+  CONSTRAINT chk_outbox_status CHECK (status IN (&#x27;pending&#x27;, &#x27;sent&#x27;, &#x27;failed&#x27;))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</code></pre><h1 id="section-4">4. 其他</h1><p>AI 专项对话链接：待替换为真实、可公开访问且不含隐私信息的链接。</p><p>　</p></section>
+</body></html>

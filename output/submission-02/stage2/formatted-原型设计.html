@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="docx-page-size" content="A4"><title>原型设计</title><style>
+:root {
+  --ff-body: SimSun, 宋体, serif;
+  --ff-heading: SimSun, 宋体, serif;
+  --ff-mono: Consolas, monospace;
+  --fs-body: 12pt;
+  --fs-h1: 12pt;
+  --fs-h2: 12pt;
+  --fs-h3: 12pt;
+  --fs-cover-project: 16pt;
+  --fs-cover-title: 14pt;
+  --fs-caption: 12pt;
+  --lh-body: 1.5;
+  --fw-bold: 700;
+  --fw-normal: 400;
+  --color-text: #000000;
+  --color-muted: #444444;
+  --color-border: #666666;
+  --color-table-header: #E7E6E6;
+  --color-background: #FFFFFF;
+  --spacing-paragraph: 0.55em;
+  --spacing-section: 1.25em;
+  --spacing-block: 0.75em;
+  --spacing-cover: 2.5em;
+  --spacing-image: 0.5em;
+  --margin-page: 2.54cm 2.4cm 2.54cm 2.8cm;
+  --margin-auto: auto;
+  --page-content-width: 15.6cm;
+  --border-table: 1px solid var(--color-border);
+  --align-center: center;
+  --align-justify: justify;
+  --align-left: left;
+  --indent-body: 2em;
+  --indent-none: 0;
+  --width-full: 100%;
+  --width-image: 100%;
+  --weight-normal: normal;
+  --style-none: none;
+}
+@page { margin: var(--margin-page); @bottom-center { content: counter(page); font-family: var(--ff-body); font-size: var(--fs-body); } }
+@page cover { @bottom-center { content: none; } }
+section[role="cover"] { page: cover; }
+body { max-width: var(--page-content-width); margin-left: var(--margin-auto); margin-right: var(--margin-auto); background: var(--color-background); color: var(--color-text); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+p { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--fw-normal); line-height: var(--lh-body); text-align: var(--align-justify); text-indent: var(--indent-body); margin-top: var(--spacing-paragraph); margin-bottom: var(--spacing-paragraph); }
+h1, h2, h3 { font-family: var(--ff-heading); color: var(--color-text); font-weight: var(--fw-bold); line-height: var(--lh-body); text-align: var(--align-left); margin-top: var(--spacing-section); margin-bottom: var(--spacing-block); }
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+.cover-project { font-family: var(--ff-body); font-size: var(--fs-cover-project); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-meta, .cover-status { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-normal); text-align: var(--align-center); text-indent: var(--indent-none); line-height: var(--lh-body); }
+.cover-status { font-size: var(--fs-body); color: var(--color-muted); margin-top: var(--spacing-cover); }
+.toc-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); }
+.toc-list, .toc-list ol, .toc-list ul { list-style: var(--style-none); }
+.toc-list li, .toc-list li a { font-family: var(--ff-body); font-size: var(--fs-body); color: var(--color-text); line-height: var(--lh-body); text-indent: var(--indent-none); }
+table { width: var(--width-full); border-collapse: collapse; margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+caption { font-family: var(--ff-body); font-size: var(--fs-caption); font-weight: var(--fw-bold); text-align: var(--align-center); margin-bottom: var(--spacing-image); }
+th, td { border: var(--border-table); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); text-align: var(--align-left); padding: var(--spacing-image); vertical-align: top; }
+th { font-weight: var(--fw-bold); text-align: var(--align-center); background: var(--color-table-header); }
+figure { margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+figure p, figcaption p { text-align: var(--align-center); text-indent: var(--indent-none); font-family: var(--ff-body); font-size: var(--fs-caption); }
+img { max-width: var(--width-image); }
+ul, ol { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+li { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); }
+code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+pre { font-family: var(--ff-mono); font-size: var(--fs-body); line-height: var(--lh-body); white-space: pre-wrap; text-align: var(--align-left); }
+pre code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+</style></head>
+<body>
+<section role="cover">
+<p class="cover-project">UnifiedMessagesManagement<br>多平台连接器与统一消息管理</p>
+<p class="cover-title">原型设计</p>
+<p class="cover-meta">报名序号：47</p>
+<p class="cover-meta">队长：廖俊健　队员：姚峰</p>
+<p class="cover-status">状态：原型设计稿；截图来自本地静态原型，不代表真实产品已实现。</p>
+</section>
+<section role="cover"><nav class="doc-toc" aria-label="文档目录"><p class="toc-title">目录</p><ol class="toc-list"><li><a href="#section-1">1. 软件界面清单</a></li><li><a href="#section-2">2. 界面内容</a></li><li><a href="#section-3">3. 界面设计</a><ol><li><a href="#section-3-1">图 1 消息工作台</a></li><li><a href="#section-3-2">图 2 登录页</a></li><li><a href="#section-3-3">图 3 会话处理与回复</a></li><li><a href="#section-3-4">图 4 待办聚合</a></li><li><a href="#section-3-5">图 5 状态回流追踪</a></li><li><a href="#section-3-6">图 6 发送失败与恢复</a></li><li><a href="#section-3-7">图 7 断线补拉</a></li><li><a href="#section-3-8">图 8 未认证拦截</a></li></ol></li><li><a href="#section-4">4. 其他</a></li></ol></nav></section>
+<section role="body" data-page-restart="1"><h1 id="section-1">1. 软件界面清单</h1><table><caption>表 1 软件界面清单</caption><thead><tr><th>序号</th><th>一级菜单</th><th>二级菜单</th><th>主要界面</th></tr></thead><tbody><tr><td>1</td><td>统一入口</td><td>登录认证</td><td>登录页、未认证拦截页</td></tr><tr><td>2</td><td>消息工作台</td><td>消息列表</td><td>消息工作台、消息筛选、消息详情</td></tr><tr><td>3</td><td>消息工作台</td><td>会话处理</td><td>会话处理与回复页</td></tr><tr><td>4</td><td>待办中心</td><td>待办列表</td><td>待办聚合页</td></tr><tr><td>5</td><td>状态中心</td><td>状态追踪</td><td>状态回流追踪页</td></tr><tr><td>6</td><td>异常中心</td><td>失败恢复</td><td>发送失败与恢复页</td></tr><tr><td>7</td><td>异常中心</td><td>连接恢复</td><td>断线补拉页</td></tr></tbody></table><h1 id="section-2">2. 界面内容</h1><table><caption>表 2 界面内容</caption><thead><tr><th>界面</th><th>主要展示内容</th><th>主要功能</th></tr></thead><tbody><tr><td>登录页</td><td>项目名称、账号、密码、会话安全提示</td><td>登录、表单校验、错误提示</td></tr><tr><td>未认证拦截页</td><td>401 状态、会话失效原因、重新登录入口</td><td>阻止未认证访问、返回登录</td></tr><tr><td>消息工作台</td><td>未处理数、今日新增、待回执、异常数、会话列表、统一消息流</td><td>搜索、筛选、查看消息、进入会话</td></tr><tr><td>会话处理与回复页</td><td>平台来源、消息内容、附件、当前状态、回复输入框</td><td>标记处理、发送文本/文件回复、查看发送中状态</td></tr><tr><td>待办聚合页</td><td>待办来源、标题、摘要、处理状态</td><td>同步待办、处理待办、查看结果</td></tr><tr><td>状态回流追踪页</td><td>消息 ID、状态时间线、当前节点、后续节点</td><td>回放状态、定位失败节点、确认平台回流</td></tr><tr><td>发送失败与恢复页</td><td>错误码、失败原因、幂等键、重试次数、下次重试时间</td><td>重试、查看恢复路径、转人工处理</td></tr><tr><td>断线补拉页</td><td>最后游标、连接状态、补拉说明</td><td>自动重连、手动重连、补拉缺失消息</td></tr></tbody></table><h1 id="section-3">3. 界面设计</h1><h2 id="section-3-1">图 1 消息工作台</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-message-inbox-01.png" alt="图 1 消息工作台"></p><figcaption><p>图 1 消息工作台</p></figcaption></figure><p>图 1 展示统一入口的主工作台，左侧为导航与会话，右侧为指标、来源标识、消息内容和状态。用户可以从消息列表进入处理页面。</p><h2 id="section-3-2">图 2 登录页</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-login-02.png" alt="图 2 登录页"></p><figcaption><p>图 2 登录页</p></figcaption></figure><p>图 2 展示统一入口登录界面。界面明确项目名称与系统价值，登录表单包含账号、密码和会话超时提示。</p><h2 id="section-3-3">图 3 会话处理与回复</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-conversation-reply-03.png" alt="图 3 会话处理与回复"></p><figcaption><p>图 3 会话处理与回复</p></figcaption></figure><p>图 3 展示消息详情、平台来源、附件、回复输入和发送动作。回复受理后先显示“回复中”，不提前假报平台侧已成功。</p><h2 id="section-3-4">图 4 待办聚合</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-todo-center-04.png" alt="图 4 待办聚合"></p><figcaption><p>图 4 待办聚合</p></figcaption></figure><p>图 4 展示跨平台待办卡片，包含来源、标题、摘要和状态，便于用户统一安排处理。</p><h2 id="section-3-5">图 5 状态回流追踪</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-status-feedback-05.png" alt="图 5 状态回流追踪"></p><figcaption><p>图 5 状态回流追踪</p></figcaption></figure><p>图 5 展示单条消息从接收、入库、展示、处理、回复到确认的时间线，支撑闭环追踪。</p><h2 id="section-3-6">图 6 发送失败与恢复</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-send-failure-06.png" alt="图 6 发送失败与恢复"></p><figcaption><p>图 6 发送失败与恢复</p></figcaption></figure><p>图 6 展示平台限流或发送失败时的错误原因、幂等键、重试次数和恢复路径，避免用户误解为已发送成功。</p><h2 id="section-3-7">图 7 断线补拉</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-offline-recovery-07.png" alt="图 7 断线补拉"></p><figcaption><p>图 7 断线补拉</p></figcaption></figure><p>图 7 展示 WebSocket 断开后的最后游标、自动重连和补拉说明，保证恢复后消息不遗漏。</p><h2 id="section-3-8">图 8 未认证拦截</h2><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\prototype\fig-02-unauthorized-08.png" alt="图 8 未认证拦截"></p><figcaption><p>图 8 未认证拦截</p></figcaption></figure><p>图 8 展示会话失效后的 401 拦截页面，未认证用户不能继续访问消息或发送接口。</p><h1 id="section-4">4. 其他</h1><p>AI 专项对话链接：待替换为真实、可公开访问且不含隐私信息的链接。</p><p>原型源文件位于 <code>web/prototype/</code>；截图仅用于界面设计说明，不作为真实运行验证证据。</p><p>　</p></section>
+</body></html>

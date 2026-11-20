@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="docx-page-size" content="A4"><title>设计文档精简版</title><style>
+:root {
+  --ff-body: SimSun, 宋体, serif;
+  --ff-heading: SimSun, 宋体, serif;
+  --ff-mono: Consolas, monospace;
+  --fs-body: 12pt;
+  --fs-h1: 12pt;
+  --fs-h2: 12pt;
+  --fs-h3: 12pt;
+  --fs-cover-project: 16pt;
+  --fs-cover-title: 14pt;
+  --fs-caption: 12pt;
+  --lh-body: 1.5;
+  --fw-bold: 700;
+  --fw-normal: 400;
+  --color-text: #000000;
+  --color-muted: #444444;
+  --color-border: #666666;
+  --color-table-header: #E7E6E6;
+  --color-background: #FFFFFF;
+  --spacing-paragraph: 0.55em;
+  --spacing-section: 1.25em;
+  --spacing-block: 0.75em;
+  --spacing-cover: 2.5em;
+  --spacing-image: 0.5em;
+  --margin-page: 2.54cm 2.4cm 2.54cm 2.8cm;
+  --margin-auto: auto;
+  --page-content-width: 15.6cm;
+  --border-table: 1px solid var(--color-border);
+  --align-center: center;
+  --align-justify: justify;
+  --align-left: left;
+  --indent-body: 2em;
+  --indent-none: 0;
+  --width-full: 100%;
+  --width-image: 100%;
+  --weight-normal: normal;
+  --style-none: none;
+}
+@page { margin: var(--margin-page); @bottom-center { content: counter(page); font-family: var(--ff-body); font-size: var(--fs-body); } }
+@page cover { @bottom-center { content: none; } }
+section[role="cover"] { page: cover; }
+body { max-width: var(--page-content-width); margin-left: var(--margin-auto); margin-right: var(--margin-auto); background: var(--color-background); color: var(--color-text); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+p { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--fw-normal); line-height: var(--lh-body); text-align: var(--align-justify); text-indent: var(--indent-body); margin-top: var(--spacing-paragraph); margin-bottom: var(--spacing-paragraph); }
+h1, h2, h3 { font-family: var(--ff-heading); color: var(--color-text); font-weight: var(--fw-bold); line-height: var(--lh-body); text-align: var(--align-left); margin-top: var(--spacing-section); margin-bottom: var(--spacing-block); }
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+.cover-project { font-family: var(--ff-body); font-size: var(--fs-cover-project); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-meta, .cover-status { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-normal); text-align: var(--align-center); text-indent: var(--indent-none); line-height: var(--lh-body); }
+.cover-status { font-size: var(--fs-body); color: var(--color-muted); margin-top: var(--spacing-cover); }
+.toc-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); }
+.toc-list, .toc-list ol, .toc-list ul { list-style: var(--style-none); }
+.toc-list li, .toc-list li a { font-family: var(--ff-body); font-size: var(--fs-body); color: var(--color-text); line-height: var(--lh-body); text-indent: var(--indent-none); }
+table { width: var(--width-full); border-collapse: collapse; margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+caption { font-family: var(--ff-body); font-size: var(--fs-caption); font-weight: var(--fw-bold); text-align: var(--align-center); margin-bottom: var(--spacing-image); }
+th, td { border: var(--border-table); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); text-align: var(--align-left); padding: var(--spacing-image); vertical-align: top; }
+th { font-weight: var(--fw-bold); text-align: var(--align-center); background: var(--color-table-header); }
+figure { margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+figure p, figcaption p { text-align: var(--align-center); text-indent: var(--indent-none); font-family: var(--ff-body); font-size: var(--fs-caption); }
+img { max-width: var(--width-image); }
+ul, ol { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+li { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); }
+code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+pre { font-family: var(--ff-mono); font-size: var(--fs-body); line-height: var(--lh-body); white-space: pre-wrap; text-align: var(--align-left); }
+pre code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+</style></head>
+<body>
+<section role="cover">
+<p class="cover-project">UnifiedMessagesManagement<br>多平台连接器与统一消息管理</p>
+<p class="cover-title">设计文档精简版</p>
+<p class="cover-meta">报名序号：47</p>
+<p class="cover-meta">队长：廖俊健　队员：姚峰</p>
+<p class="cover-status">状态：精简设计源稿；目标为最终 PDF 不超过 10 页。</p>
+</section>
+<section role="cover"><nav class="doc-toc" aria-label="文档目录"><p class="toc-title">目录</p><ol class="toc-list"><li><a href="#section-1">1. 业务闭环</a></li><li><a href="#section-2">2. 系统架构</a></li><li><a href="#section-3">3. 核心接口</a></li><li><a href="#section-4">4. 关键表结构</a></li><li><a href="#section-5">5. 状态机</a></li><li><a href="#section-6">6. 当前边界</a></li></ol></nav></section>
+<section role="body" data-page-restart="1"><h1 id="section-1">1. 业务闭环</h1><p>系统通过平台 Webhook 接收飞书、钉钉消息，转换为统一格式并入库，在 Web 入口集中展示。用户处理和回复后，系统将回复转换为平台格式并发送，平台成功、失败和回执结果再回流到统一入口。</p><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\requirements\fig-01-message-receive-display-01.png" alt="图 1 业务闭环流程"></p><figcaption><p>图 1 业务闭环流程</p></figcaption></figure><h1 id="section-2">2. 系统架构</h1><p>采用模块化单体：Vue 3 + Element Plus 前端，FastAPI 后端，MySQL 8 保存业务事实，Redis 7 保存会话与短期协调数据，worker 处理 outbox 发送与补偿，Nginx 托管前端并反代 REST/WebSocket。</p><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\design\fig-06-system-architecture-01.png" alt="图 2 系统架构"></p><figcaption><p>图 2 系统架构</p></figcaption></figure><h1 id="section-3">3. 核心接口</h1><table><caption>表 1 核心接口</caption><thead><tr><th>接口</th><th>方法/协议</th><th>用途</th></tr></thead><tbody><tr><td><code>/api/v1/auth/login</code></td><td>POST</td><td>登录统一入口</td></tr><tr><td><code>/api/v1/messages</code></td><td>GET</td><td>查询统一消息</td></tr><tr><td><code>/api/v1/messages/{messageId}</code></td><td>GET</td><td>查看详情和状态历史</td></tr><tr><td><code>/api/v1/messages/{messageId}/process</code></td><td>POST</td><td>标记处理</td></tr><tr><td><code>/api/v1/messages/{messageId}/reply</code></td><td>POST</td><td>受理回复</td></tr><tr><td><code>/api/v1/messages/{messageId}/retry</code></td><td>POST</td><td>重试失败发送</td></tr><tr><td><code>/api/v1/todos</code></td><td>GET</td><td>查询待办</td></tr><tr><td><code>/webhooks/{platform}</code></td><td>POST</td><td>接收平台事件</td></tr><tr><td><code>/ws/v1</code></td><td>WebSocket</td><td>推送新消息与状态变化</td></tr></tbody></table><h1 id="section-4">4. 关键表结构</h1><table><caption>表 2 关键表结构</caption><thead><tr><th>表</th><th>作用</th><th>关键约束</th></tr></thead><tbody><tr><td><code>users</code></td><td>登录用户</td><td>用户名唯一</td></tr><tr><td><code>platform_accounts</code></td><td>平台应用与凭证引用</td><td>平台 + 账号唯一</td></tr><tr><td><code>conversations</code></td><td>统一会话</td><td>平台 + 平台会话 ID 唯一</td></tr><tr><td><code>messages</code></td><td>统一消息与状态</td><td>平台事件唯一、回复请求唯一、版本乐观锁</td></tr><tr><td><code>attachments</code></td><td>文件元数据</td><td>关联消息</td></tr><tr><td><code>message_status_history</code></td><td>状态流转历史</td><td>关联消息</td></tr><tr><td><code>outbox_events</code></td><td>发送与补偿任务</td><td>幂等键唯一</td></tr></tbody></table><h1 id="section-5">5. 状态机</h1><figure><p><img src="C:\doc\project\UnifiedMessagesManagement\docs\submissions\assets\design\fig-06-message-state-machine-02.png" alt="图 3 消息状态机"></p><figcaption><p>图 3 消息状态机</p></figcaption></figure><p>状态包括 <code>received</code>、<code>stored</code>、<code>displayed</code>、<code>processed</code>、<code>replying</code>、<code>replied</code>、<code>confirmed</code>、<code>parse_failed</code>、<code>ignored</code>、<code>send_failed</code>、<code>dead</code>。只有真实回执或平台查询补偿成功后才进入 <code>confirmed</code>，不能用本地推测代替。</p><h1 id="section-6">6. 当前边界</h1><p>据用户陈述，钉钉平台侧已具备真实收发、回调和回执，但截图、日志和复跑记录尚未归档，因此当前未复核。飞书未接通；统一 Web 产品尚未实现。AI 不进入初赛主闭环。</p><p>　</p></section>
+</body></html>

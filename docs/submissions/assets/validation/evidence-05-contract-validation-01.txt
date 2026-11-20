@@ -1,0 +1,15 @@
+执行时间: 2026-11-20T17:00:23+0800
+工作目录: /c/doc/project/UnifiedMessagesManagement
+环境: Python 3.13.14
+
+命令 1: python .harness/scripts/harness.py json contracts/message.schema.json
+JSON 解析通过: C:/doc/project/UnifiedMessagesManagement/contracts/message.schema.json
+退出码: 0
+
+命令 2: python .harness/scripts/harness.py openapi contracts/openapi.json
+OpenAPI 校验通过: C:/doc/project/UnifiedMessagesManagement/contracts/openapi.json
+退出码: 0
+
+命令 3: python output/validate_openapi_examples.py
+OpenAPI examples schema validation passed: 4/4
+退出码: 0

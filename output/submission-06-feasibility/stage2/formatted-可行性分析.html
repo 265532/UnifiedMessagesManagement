@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="docx-page-size" content="A4"><title>可行性分析</title><style>
+:root {
+  --ff-body: SimSun, 宋体, serif;
+  --ff-heading: SimSun, 宋体, serif;
+  --ff-mono: Consolas, monospace;
+  --fs-body: 12pt;
+  --fs-h1: 12pt;
+  --fs-h2: 12pt;
+  --fs-h3: 12pt;
+  --fs-cover-project: 16pt;
+  --fs-cover-title: 14pt;
+  --fs-caption: 12pt;
+  --lh-body: 1.5;
+  --fw-bold: 700;
+  --fw-normal: 400;
+  --color-text: #000000;
+  --color-muted: #444444;
+  --color-border: #666666;
+  --color-table-header: #E7E6E6;
+  --color-background: #FFFFFF;
+  --spacing-paragraph: 0.55em;
+  --spacing-section: 1.25em;
+  --spacing-block: 0.75em;
+  --spacing-cover: 2.5em;
+  --spacing-image: 0.5em;
+  --margin-page: 2.54cm 2.4cm 2.54cm 2.8cm;
+  --margin-auto: auto;
+  --page-content-width: 15.6cm;
+  --border-table: 1px solid var(--color-border);
+  --align-center: center;
+  --align-justify: justify;
+  --align-left: left;
+  --indent-body: 2em;
+  --indent-none: 0;
+  --width-full: 100%;
+  --width-image: 100%;
+  --weight-normal: normal;
+  --style-none: none;
+}
+@page { margin: var(--margin-page); @bottom-center { content: counter(page); font-family: var(--ff-body); font-size: var(--fs-body); } }
+@page cover { @bottom-center { content: none; } }
+section[role="cover"] { page: cover; }
+body { max-width: var(--page-content-width); margin-left: var(--margin-auto); margin-right: var(--margin-auto); background: var(--color-background); color: var(--color-text); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+p { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--fw-normal); line-height: var(--lh-body); text-align: var(--align-justify); text-indent: var(--indent-body); margin-top: var(--spacing-paragraph); margin-bottom: var(--spacing-paragraph); }
+h1, h2, h3 { font-family: var(--ff-heading); color: var(--color-text); font-weight: var(--fw-bold); line-height: var(--lh-body); text-align: var(--align-left); margin-top: var(--spacing-section); margin-bottom: var(--spacing-block); }
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+.cover-project { font-family: var(--ff-body); font-size: var(--fs-cover-project); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); margin-top: var(--spacing-cover); }
+.cover-meta, .cover-status { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-normal); text-align: var(--align-center); text-indent: var(--indent-none); line-height: var(--lh-body); }
+.cover-status { font-size: var(--fs-body); color: var(--color-muted); margin-top: var(--spacing-cover); }
+.toc-title { font-family: var(--ff-body); font-size: var(--fs-cover-title); font-weight: var(--fw-bold); text-align: var(--align-center); text-indent: var(--indent-none); }
+.toc-list, .toc-list ol, .toc-list ul { list-style: var(--style-none); }
+.toc-list li, .toc-list li a { font-family: var(--ff-body); font-size: var(--fs-body); color: var(--color-text); line-height: var(--lh-body); text-indent: var(--indent-none); }
+table { width: var(--width-full); border-collapse: collapse; margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+caption { font-family: var(--ff-body); font-size: var(--fs-caption); font-weight: var(--fw-bold); text-align: var(--align-center); margin-bottom: var(--spacing-image); }
+th, td { border: var(--border-table); font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); text-align: var(--align-left); padding: var(--spacing-image); vertical-align: top; }
+th { font-weight: var(--fw-bold); text-align: var(--align-center); background: var(--color-table-header); }
+figure { margin-top: var(--spacing-block); margin-bottom: var(--spacing-block); }
+figure p, figcaption p { text-align: var(--align-center); text-indent: var(--indent-none); font-family: var(--ff-body); font-size: var(--fs-caption); }
+img { max-width: var(--width-image); }
+ul, ol { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); }
+li { font-family: var(--ff-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-text); }
+code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+pre { font-family: var(--ff-mono); font-size: var(--fs-body); line-height: var(--lh-body); white-space: pre-wrap; text-align: var(--align-left); }
+pre code { font-family: var(--ff-mono); font-size: var(--fs-body); }
+</style></head>
+<body>
+<section role="cover">
+<p class="cover-project">UnifiedMessagesManagement<br>多平台连接器与统一消息管理</p>
+<p class="cover-title">可行性分析</p>
+<p class="cover-meta">报名序号：47</p>
+<p class="cover-meta">队长：廖俊健　队员：姚峰</p>
+<p class="cover-status">状态：提交源稿；如实区分已确认事实、设计内容与待补证据。</p>
+</section>
+<section role="cover"><nav class="doc-toc" aria-label="文档目录"><p class="toc-title">目录</p><ol class="toc-list"><li><a href="#section-1">1. 技术可行性</a></li><li><a href="#section-2">2. 数据可行性</a></li><li><a href="#section-3">3. 时间可行性</a></li><li><a href="#section-4">4. 主要难点与应对预案</a></li><li><a href="#section-5">5. 结论</a></li></ol></nav></section>
+<section role="body" data-page-restart="1"><h1 id="section-1">1. 技术可行性</h1><p>本系统采用 Vue 3 + Element Plus 构建统一 Web 入口，采用 FastAPI + SQLAlchemy 构建后端服务，使用 MySQL 保存消息、状态历史、幂等约束和 outbox 事件，使用 Redis 保存会话、平台 Token 缓存和短期协调数据，通过 REST + WebSocket 完成查询、处理和实时状态回流。该技术组合均为成熟开源方案，能够支撑消息接收、展示、处理、回复和状态回流闭环。</p><p>平台对接采用 Adapter 模式。飞书与钉钉分别实现事件验签、消息转换和发送适配，核心服务只依赖统一消息 Schema 与状态机，后续新增平台不需要改动核心消息模型。数据库唯一约束承担事件去重和回复请求幂等，持久化 outbox 承担发送恢复，技术路径明确。</p><p>当前边界：据用户陈述，钉钉平台侧已具备真实收发、回调和回执，但证据尚未归档，当前未复核；统一 Web 产品尚未实现；飞书尚未接通。技术选型与架构已经确定并用于设计，但不得表述为完整实现已通过。</p><h1 id="section-2">2. 数据可行性</h1><p>系统数据主要来自团队在测试企业内产生的消息、待办、附件和回执，不依赖外部采购数据或个人隐私数据。测试消息可以覆盖文本、文件、待办、重复事件、发送失败和回执延迟等场景，数据规模和内容可控。</p><p>团队确认钉钉平台侧已经完成真实收发、回调和回执，但相关截图、日志和复跑步骤尚未归档到仓库，因此本次只能将其作为待复核证据来源。飞书暂未接通，不能声称双平台验证已经完成。数据库设计、消息 Schema 和 OpenAPI 已在仓库形成可审查文件，且 JSON 与 OpenAPI 解析校验通过。</p><h1 id="section-3">3. 时间可行性</h1><p>用户已要求忽略截止时间，因此本分析不讨论逾期、延期或剩余天数，只按依赖关系说明实施顺序：</p><ol><li>1. 先冻结需求、消息 Schema、状态机、数据库和接口契约；</li><li>2. 并行完成 Web 原型、核心消息服务和平台 Adapter；</li><li>3. 优先归档钉钉平台侧真实收发、回调和回执证据；</li><li>4. 完成飞书测试企业、权限、回调和最小收发闭环；</li><li>5. 接入统一 Web 页面，完成接收 → 展示 → 处理 → 回复 → 状态回流；</li><li>6. 最后在干净环境复核启动、健康检查和端到端证据。</li></ol><p>初赛资料可以先行提交设计基线、原型与数据库/接口契约，但真实验证项必须等平台证据和统一 Web 产品补齐后才能写成通过。</p><h1 id="section-4">4. 主要难点与应对预案</h1><table><caption>表 1 主要难点与应对预案</caption><thead><tr><th>难点</th><th>影响</th><th>应对预案</th></tr></thead><tbody><tr><td>飞书未接通</td><td>不能满足双平台 Must 的完整验证</td><td>先完成测试企业、最小权限和单条消息纵切；未通过前如实标注</td></tr><tr><td>钉钉证据未归档</td><td>无法形成可复核初步验证</td><td>补充截图、日志、消息 ID、执行步骤、时间和环境，统一脱敏归档</td></tr><tr><td>平台重复回调</td><td>造成重复消息</td><td>使用 <code>(platform, platform_event_id)</code> 唯一约束</td></tr><tr><td>回复超时或重试</td><td>造成重复发送</td><td>使用客户端请求 ID、outbox 和发送前平台状态查询</td></tr><tr><td>WebSocket 断线</td><td>页面漏消息</td><td>事件游标 + REST 补拉 + 事件去重</td></tr><tr><td>凭证或密钥泄露</td><td>安全风险</td><td>配置外部化、凭证加密、截图脱敏、仓库扫描</td></tr><tr><td>原型与真实验证混淆</td><td>证据失真</td><td>原型图只用于设计文档；真实验证必须来自可运行产品和平台侧记录</td></tr></tbody></table><h1 id="section-5">5. 结论</h1><p>从技术栈、数据获取和依赖顺序看，项目具备可行路径；但当前仍存在飞书未接通、统一 Web 产品未实现和钉钉证据未归档三类关键缺口。因此结论是“设计与实施路径可行，真实闭环验证尚待补齐”，而不是“已完成验证”。</p><p>　</p></section>
+</body></html>

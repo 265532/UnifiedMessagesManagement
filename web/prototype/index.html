@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UnifiedMessagesManagement 初赛原型</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="prototype-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand">
+        <span class="brand-mark">UM</span>
+        <div>
+          <strong>统一消息管理</strong>
+          <small>UnifiedMessagesManagement</small>
+        </div>
+      </div>
+      <nav class="nav-list">
+        <a href="?screen=inbox" class="active"><span>01</span>消息工作台</a>
+        <a href="?screen=conversation"><span>02</span>会话处理</a>
+        <a href="?screen=todos"><span>03</span>待办聚合</a>
+        <a href="?screen=status"><span>04</span>状态回流</a>
+        <a href="?screen=failure"><span>05</span>异常恢复</a>
+      </nav>
+      <div class="connection-card">
+        <span class="pulse"></span>
+        <div>
+          <strong>连接正常</strong>
+          <small>WebSocket 游标 12,482</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <section class="screen active" data-screen="inbox" aria-labelledby="inbox-title">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">MESSAGE INBOX</p>
+            <h1 id="inbox-title">消息工作台</h1>
+          </div>
+          <div class="toolbar" role="search">
+            <label class="search"><span>搜索</span><input value="供应商报价" aria-label="搜索消息"></label>
+            <button class="primary">新建回复</button>
+          </div>
+        </header>
+        <div class="metric-strip reveal">
+          <article><span>未处理</span><strong>18</strong><small>飞书 7 · 钉钉 11</small></article>
+          <article><span>今日新增</span><strong>64</strong><small>较昨日 +12</small></article>
+          <article><span>待回执</span><strong>5</strong><small>最迟 09:42</small></article>
+          <article><span>异常</span><strong>2</strong><small>可重试</small></article>
+        </div>
+        <div class="inbox-layout">
+          <section class="panel conversation-list reveal" aria-label="会话列表">
+            <div class="panel-title"><h2>会话</h2><button>筛选</button></div>
+            <article class="conversation selected">
+              <span class="platform dingtalk">钉</span>
+              <div><strong>项目协同群</strong><p>请确认今天的发货清单</p></div>
+              <time>09:36</time>
+            </article>
+            <article class="conversation">
+              <span class="platform feishu">飞</span>
+              <div><strong>客户支持台</strong><p>合同附件已更新</p></div>
+              <time>09:21</time>
+            </article>
+            <article class="conversation unread">
+              <span class="platform dingtalk">钉</span>
+              <div><strong>财务审批</strong><p>付款申请等待处理</p></div>
+              <time>08:58</time>
+            </article>
+          </section>
+          <section class="panel message-table reveal" aria-label="消息列表">
+            <div class="panel-title"><h2>统一消息流</h2><span>按状态与游标排序</span></div>
+            <table>
+              <thead><tr><th>来源</th><th>发送人</th><th>内容</th><th>状态</th><th>时间</th></tr></thead>
+              <tbody>
+                <tr><td><span class="tag dingtalk">钉钉</span></td><td>陈雨</td><td>请确认今天的发货清单</td><td><span class="status stored">已接收</span></td><td>09:36</td></tr>
+                <tr><td><span class="tag feishu">飞书</span></td><td>李澈</td><td>合同附件已更新，请查收</td><td><span class="status displayed">已展示</span></td><td>09:21</td></tr>
+                <tr><td><span class="tag dingtalk">钉钉</span></td><td>王琳</td><td>付款申请等待处理</td><td><span class="status processed">已处理</span></td><td>08:58</td></tr>
+                <tr><td><span class="tag feishu">飞书</span></td><td>赵铭</td><td>明早例会更改到 10:00</td><td><span class="status confirmed">已确认</span></td><td>08:40</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="conversation" aria-labelledby="conversation-title">
+        <header class="topbar"><div><p class="eyebrow">CONVERSATION</p><h1 id="conversation-title">会话处理与回复</h1></div><span class="status displayed">已展示</span></header>
+        <div class="detail-layout">
+          <section class="panel chat-panel reveal">
+            <div class="message incoming"><small>陈雨 · 钉钉 · 09:36</small><p>请确认今天的发货清单，供应商需要 11 点前最终版本。</p><span class="status stored">已接收</span></div>
+            <div class="message incoming"><small>陈雨 · 钉钉 · 09:39</small><p>附件：发货清单-20261120.xlsx</p><span class="status displayed">已展示</span></div>
+            <div class="message outgoing"><small>我 · 统一入口 · 09:41</small><p>收到，我会在 10:30 前核对并回复最终版本。</p><span class="status replying">回复中</span></div>
+          </section>
+          <aside class="panel action-panel reveal">
+            <h2>处理动作</h2>
+            <button class="primary full">标记已处理</button>
+            <button class="secondary full">生成回复草稿</button>
+            <label>回复内容<textarea>收到，我会在 10:30 前核对并回复最终版本。</textarea></label>
+            <button class="primary full">发送到钉钉</button>
+            <div class="hint">回复受理后进入 replying；平台返回成功后进入 replied。</div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="todos" aria-labelledby="todo-title">
+        <header class="topbar"><div><p class="eyebrow">TODO CENTER</p><h1 id="todo-title">待办聚合</h1></div><button class="primary">同步待办</button></header>
+        <div class="todo-grid reveal">
+          <article class="todo-card urgent"><span class="tag dingtalk">钉钉</span><h2>付款申请审批</h2><p>金额 ¥18,400，需今天处理。</p><footer><span>待处理</span><button>处理</button></footer></article>
+          <article class="todo-card"><span class="tag feishu">飞书</span><h2>合同用印确认</h2><p>法务已补充最终条款。</p><footer><span>待处理</span><button>处理</button></footer></article>
+          <article class="todo-card done"><span class="tag dingtalk">钉钉</span><h2>发货清单复核</h2><p>已完成并回流状态。</p><footer><span>已处理</span><button>查看</button></footer></article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="status" aria-labelledby="status-title">
+        <header class="topbar"><div><p class="eyebrow">STATUS TRACE</p><h1 id="status-title">状态回流追踪</h1></div><span class="tag">MSG-10482</span></header>
+        <section class="panel timeline-panel reveal">
+          <ol class="timeline">
+            <li class="done"><time>09:36:02</time><strong>received</strong><p>钉钉 Webhook 验签通过。</p></li>
+            <li class="done"><time>09:36:03</time><strong>stored</strong><p>事件 ID 去重并入库。</p></li>
+            <li class="done"><time>09:36:04</time><strong>displayed</strong><p>WebSocket 推送到统一入口。</p></li>
+            <li class="done"><time>09:41:18</time><strong>processed</strong><p>用户完成处理。</p></li>
+            <li class="active"><time>09:42:07</time><strong>replied</strong><p>钉钉发送接口返回成功，等待回执。</p></li>
+            <li><time>待确认</time><strong>confirmed</strong><p>收到回执或补偿查询成功后进入。</p></li>
+          </ol>
+        </section>
+      </section>
+
+      <section class="screen" data-screen="failure" aria-labelledby="failure-title">
+        <header class="topbar"><div><p class="eyebrow">RECOVERY</p><h1 id="failure-title">失败与恢复</h1></div><button class="primary">重新发送</button></header>
+        <div class="failure-layout reveal">
+          <section class="panel error-panel">
+            <span class="error-code">SEND_FAILED</span>
+            <h2>钉钉接口返回 429，已暂停直接重发</h2>
+            <p>系统将按 0.5s、1s、2s、4s、8s 退避重试，最多 5 次；重试前会先查询平台侧是否已收到，避免重复回复。</p>
+            <dl><div><dt>幂等键</dt><dd>reply-10482-7f3a</dd></div><div><dt>下次重试</dt><dd>09:45:30</dd></div><div><dt>当前次数</dt><dd>2 / 5</dd></div></dl>
+          </section>
+          <section class="panel recovery-steps"><h2>恢复路径</h2><ol><li>保留原回复请求与 outbox 记录</li><li>查询平台发送状态</li><li>确认未送达后按退避重试</li><li>仍失败则进入死信并提示人工补发</li></ol></section>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="offline" aria-labelledby="offline-title">
+        <header class="topbar"><div><p class="eyebrow">OFFLINE</p><h1 id="offline-title">断线补拉</h1></div><span class="status send_failed">连接中断</span></header>
+        <section class="panel offline-panel reveal">
+          <div class="offline-icon">12,482</div>
+          <h2>WebSocket 已断开，正在自动重连</h2>
+          <p>页面保留最后游标 12,482。重连后将通过 REST 接口补拉缺失消息，并与实时事件去重。</p>
+          <button class="primary">立即重连</button>
+        </section>
+      </section>
+
+      <section class="screen" data-screen="unauthorized" aria-labelledby="unauthorized-title">
+        <header class="topbar"><div><p class="eyebrow">AUTH REQUIRED</p><h1 id="unauthorized-title">未认证拦截</h1></div></header>
+        <section class="panel offline-panel reveal">
+          <div class="offline-icon">401</div>
+          <h2>会话已失效，请重新登录</h2>
+          <p>空闲超过 30 分钟后会话自动失效；未认证请求不能访问消息、待办或发送接口。</p>
+          <button class="primary">返回登录</button>
+        </section>
+      </section>
+
+      <section class="screen" data-screen="login" aria-labelledby="login-title">
+        <div class="login-layout reveal">
+          <section class="login-copy">
+            <p class="eyebrow">UNIFIED ACCESS</p>
+            <h1 id="login-title">一个入口，处理所有工作消息。</h1>
+            <p>统一接收、处理、回复并追踪飞书与钉钉消息状态，让每一次处理都有可回放的证据。</p>
+          </section>
+          <form class="login-card">
+            <h2>登录统一入口</h2>
+            <label>账号<input value="liaojunjian" autocomplete="username"></label>
+            <label>密码<input type="password" value="password" autocomplete="current-password"></label>
+            <button class="primary full" type="button">登录</button>
+            <p>会话空闲 30 分钟自动失效</p>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
